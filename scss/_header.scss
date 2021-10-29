@@ -1,0 +1,15 @@
+.logo {
+    font-family: 'Roboto', sans-serif;
+    color: $white;
+    padding-left: 1rem;
+    box-sizing: content-box;
+}
+
+.header {
+    width: 100vw;
+    border-bottom: 0.5rem solid $base-green;
+    background-color: $base-green;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+}
