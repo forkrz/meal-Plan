@@ -25,9 +25,10 @@ main {
     justify-content: center;
     align-items: center;
     background-color: $white;
-    padding: 2rem 3rem;
+    padding: 0.5rem 4rem;
     border-radius: 2rem;
-    min-height: 20rem;
+    height: 30rem;
+    width: 35rem;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 2.5px inset;
 }
 
@@ -35,7 +36,7 @@ main {
     background-color: $gradient-green;
     border-radius: 1rem;
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 3rem;
     padding: 1rem;
     color: $white;
     font-family: $font;
@@ -50,14 +51,28 @@ main {
     transition: 0.4s;
 }
 
-input {
+.form__input {
+    padding: 1rem;
     margin: 1rem 0;
-    padding: 0.3rem;
-    border-radius: 0.7rem;
+    border-radius: 1rem;
+    width: 100%;
+    font-size: large;
 }
 
-label {
+.form__label {
+    padding-bottom: 0.5rem;
     color: $black;
     font-weight: bold;
     width: 100%;
+}
+
+.form_errorInfo {
+    padding-bottom: 1rem;
+    color: $red;
+    font-weight: bold;
+}
+
+.form__input--modifier {
+    @extend .form__input;
+    border: 0.2rem solid $red;
 }
