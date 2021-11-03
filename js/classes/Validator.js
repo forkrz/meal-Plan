@@ -64,10 +64,12 @@ export class Validator {
             loginErrorInfo.classList.remove('hide');
             login.classList.remove('form__input');
             login.classList.add('form__input--modifier');
+            return false;
         } else {
             loginErrorInfo.classList.add('hide');
             login.classList.remove('form__input--modifier');
             login.classList.add('form__input');
+            return true;
         }
     }
     passwordVisualValidation = () => {
