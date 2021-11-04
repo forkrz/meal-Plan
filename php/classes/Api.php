@@ -8,16 +8,17 @@ class Api
 {
     function __construct(array $config)
     {
-        $config = require_once './config/config.php';
         $this->db = new Database($config);
         $this->ver = new Verification($config);
-        $this->JWT = new JWTTokens();
+        $this->JWT = new JWTTokens($config);
     }
 
     public function loginDataSender(string $login, $password)
     {
         if ($this->ver->loginDataCheck($login, $password)) {
+
             $jwt = $this->JWT->generateToken($login);
+            http_response_code(201);
             echo json_encode(
                 array(
                     "message" => "Successful login.",
@@ -26,7 +27,7 @@ class Api
             );
         } else {
             http_response_code(401);
-            json_encode(array("message" => "Login failed."));
+            echo json_encode(array("message" => "Login failed."));
         }
     }
 }

@@ -22,7 +22,6 @@ class Database
         $statement->bindParam(':USER_LOGIN', $login);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
-        print_r($result);
         return $result;
     }
 }

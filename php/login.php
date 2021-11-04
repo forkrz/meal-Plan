@@ -13,9 +13,10 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+
 $db = new Database($config);
 $verification = new Verification($config);
-$data = json_decode(file_get_contents("php://input"));
+$data = json_decode((file_get_contents("php://input")), true);
 $api = new Api($config);
 try {
     $api->loginDataSender($data['login'], $data['password']);

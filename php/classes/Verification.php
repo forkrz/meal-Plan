@@ -8,8 +8,6 @@ class Verification
 {
     function __construct(array $config)
     {
-        $config = require_once '../php/config/dbconfig.php';
-        var_dump($config);
         $this->db = new Database($config);
     }
     private function doLoginExist(string $login)
@@ -32,7 +30,7 @@ class Verification
     public function loginDataCheck(string $login, string $password)
     {
         if ($this->doLoginExist($login)) {
-            $this->passwordVerification($login, $password);
+            return $this->passwordVerification($login, $password);
         } else {
             return false;
         }

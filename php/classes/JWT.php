@@ -12,9 +12,8 @@ use Firebase\JWT\JWT;
 
 class JWTTokens
 {
-    function __construct()
+    function __construct($config)
     {
-        $config = require_once './config/config.php';
         $this->db = new Database($config);
         $this->ver = new Verification($config);
     }
