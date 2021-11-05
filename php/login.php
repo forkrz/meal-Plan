@@ -19,7 +19,7 @@ $verification = new Verification($config);
 $data = json_decode((file_get_contents("php://input")), true);
 $api = new Api($config);
 try {
-    $api->loginDataSender($data['login'], $data['password']);
+    $api->sendLoginData($data['LOGIN'], $data['PASSWORD']);
 } catch (Exception $e) {
     echo $e->getMessage();
 }

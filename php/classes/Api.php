@@ -13,7 +13,7 @@ class Api
         $this->JWT = new JWTTokens($config);
     }
 
-    public function loginDataSender(string $login, $password)
+    public function sendLoginData(string $login, $password)
     {
         if ($this->ver->loginDataCheck($login, $password)) {
 

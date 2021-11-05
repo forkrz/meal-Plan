@@ -1,14 +1,17 @@
+import { Validator } from './Validator.js';
+
 export class Api {
     constructor(login, password) {
-        import { Validator } from './classes/Validator.js';
+
         this.login = login,
             this.password = password,
             this.Validator = new Validator;
 
     }
 
-    async sendData() {
-        await fetch('http://mp.localhost/php/login.php', {
+    async sendData(e) {
+        e.preventDefault();
+        const response = await (fetch('http://mp.localhost/php/login.php', {
             method: 'POST',
             body: JSON.stringify({
                 LOGIN: login.value,
@@ -17,7 +20,8 @@ export class Api {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
             }
-        });
-        return response.JSON();
+        }));
+        console.log(response);
+        return response.json();
     }
 }
