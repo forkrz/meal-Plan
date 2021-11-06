@@ -90,8 +90,9 @@ main {
   background-color: #0b5f43;
   border-radius: 1rem;
   width: 100%;
-  margin-top: 3rem;
   padding: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
   color: #F3EFF5;
   font-family: "Roboto", sans-serif;
   letter-spacing: 0.2rem;

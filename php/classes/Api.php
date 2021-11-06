@@ -18,7 +18,7 @@ class Api
         if ($this->ver->loginDataCheck($login, $password)) {
 
             $jwt = $this->JWT->generateToken($login);
-            http_response_code(201);
+            http_response_code(200);
             echo json_encode(
                 array(
                     "message" => "Successful login.",

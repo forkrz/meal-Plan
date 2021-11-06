@@ -1,9 +1,12 @@
+import { Api } from './Api.js';
 export class Validator {
-    constructor(login, password, loginErrorInfo, passwordErrorInfo) {
-        this.login = login,
-            this.password = password,
-            this.loginErrorInfo = loginErrorInfo,
-            this.passwordErrorInfo = passwordErrorInfo
+    constructor(login, password, loginErrorInfo, passwordErrorInfo, buttonErrorInfo) {
+        this.login = login;
+        this.password = password;
+        this.loginErrorInfo = loginErrorInfo;
+        this.passwordErrorInfo = passwordErrorInfo;
+        this.Api = new Api;
+        this.buttonErrorInfo = buttonErrorInfo;
     }
 
     loginLengthValidation = () => {
@@ -73,7 +76,6 @@ export class Validator {
         }
     }
     passwordVisualValidation = () => {
-        console.log(this.passwordLowerCaseCheck());
         if (!this.passwordLengthValidation()) {
             passwordErrorInfo.innerText = "Password must have legth between 8 and 160 characters.";
             passwordErrorInfo.classList.remove('hide');
@@ -115,5 +117,13 @@ export class Validator {
             return true;
         }
     }
+    ApiloginVisualValidation = async() => {
 
+        const apiRes = await this.Api.loginHandler();
+        if (apiRes) {
+            window.location.href = "http://mp.localhost/html/login.html"
+        } else {
+            buttonErrorInfo.classList.remove('hide');
+        }
+    }
 }
