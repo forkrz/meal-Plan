@@ -132,4 +132,25 @@ main {
 .form__input--modifier {
   border: 0.2rem solid #ac1010;
 }
+
+.nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  margin-right: 4rem;
+}
+
+.nav__list {
+  color: #F3EFF5;
+}
+
+li {
+  margin-left: 3rem;
+}
 /*# sourceMappingURL=main.css.map */

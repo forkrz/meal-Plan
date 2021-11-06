@@ -1,4 +1,5 @@
 import { Api } from './Api.js';
+import { Cookies } from './Cookies.js';
 export class Validator {
     constructor(login, password, loginErrorInfo, passwordErrorInfo, buttonErrorInfo) {
         this.login = login;
@@ -6,6 +7,7 @@ export class Validator {
         this.loginErrorInfo = loginErrorInfo;
         this.passwordErrorInfo = passwordErrorInfo;
         this.Api = new Api;
+        this.Cookies = new Cookies;
         this.buttonErrorInfo = buttonErrorInfo;
     }
 
@@ -120,8 +122,11 @@ export class Validator {
     ApiloginVisualValidation = async() => {
 
         const apiRes = await this.Api.loginHandler();
+        const apiData = await this.Api.sendAuthData();
+        const resJson = await apiData.json();
         if (apiRes) {
-            window.location.href = "http://mp.localhost/html/login.html"
+            this.Cookies.setCookie('jwt', resJson.jwt);
+            // window.location.href = "http://mp.localhost/html/login.html"
         } else {
             buttonErrorInfo.classList.remove('hide');
         }

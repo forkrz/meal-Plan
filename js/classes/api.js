@@ -21,7 +21,6 @@ export class Api {
 
     loginHandler = async() => {
         const res = await this.sendAuthData();
-        console.log(res);
         if (res.status === 200) {
             return true;
         } else {
