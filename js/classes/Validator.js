@@ -126,7 +126,7 @@ export class Validator {
         const resJson = await apiData.json();
         if (apiRes) {
             this.Cookies.setCookie('jwt', resJson.jwt);
-            // window.location.href = "http://mp.localhost/html/login.html"
+            window.location.href = "http://mp.localhost/html/login.html"
         } else {
             buttonErrorInfo.classList.remove('hide');
         }
