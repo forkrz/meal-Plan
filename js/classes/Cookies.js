@@ -28,4 +28,12 @@ export class Cookies {
         document.cookie = cname + '=; Max-Age=-99999999;';
         window.location.href = "http://mp.localhost/index.html"
     }
+
+    isCookieSet = (cname) => {
+        if (this.getCookie(cname) != "") {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
