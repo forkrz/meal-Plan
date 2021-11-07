@@ -26,5 +26,6 @@ export class Cookies {
 
     eraseCookie(cname) {
         document.cookie = cname + '=; Max-Age=-99999999;';
+        window.location.href = "http://mp.localhost/index.html"
     }
 }
