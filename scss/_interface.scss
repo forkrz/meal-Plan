@@ -1,0 +1,17 @@
+.userInterface {
+    display: flex;
+}
+
+.userInterface__form {
+    height: calc(100vh- 2rem);
+    width: calc(100vw - 2rem);
+    border-radius: 2rem;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.userInterface__form__icon {
+    color: $white;
+    font-size: 2rem;
+}

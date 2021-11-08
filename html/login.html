@@ -16,18 +16,46 @@
 <body>
 
     <div class="wrapper">
-        <header class="header">
-            <h1 class="header__logo">MEAL PLAN</h1>
-            <ul class="nav">
+        <div class="modal">
+            <span class="preferences__span">Preferences:</span>
+            <label for="typesOfDiet" class="preferences__typesOfDiet">Choose a type of Diet:</label>
+            <select name="typesOfDiets" class="preferences__typesOfDiet__select">
+                <option value="Gluten Free">Gluten Free</option>
+                <option value="Ketogenic">Ketogenic</option>
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
+                <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
+                <option value="Vegan">Vegan</option>
+                <option value="Pescetarian">Pescetarian</option>
+                <option value="Primal">Primal</option>
+                <option value="Low FODMAP">Low FODMAP</option>
+                <option value="Whole30">Whole30</option>
+            </select>
+            <label for="typesOfDiet" class="preferences__typesOfDiet">Plan for day/week:</label>
+            <select name="mealPlanPeriod" class="preferences__typesOfDiet__select">
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+            </select>
+            <label for="calories" class="preferences__typesOfDiet">Calories:</label>
+            <input type="number" name="calories" class="preferences__typesOfDiet__input">
+            <button class="form__button form__button--modal" id="button">login</button>
+        </div>
+        <header class=" header ">
+            <h1 class="header__logo ">MEAL PLAN</h1>
+            <ul class="nav ">
                 <li>
-                    <a href="logout.html">
-                        <i class="material-icons nav__list">logout</i>
-                    </a>
-                </li>
-                <li>
-                    <a href="settings.html">
-                        <i class="material-icons nav__list">settings</i>
+                    <a href="logout.html ">
+                        <i class="material-icons nav__list ">logout</i>
                     </a>
                 </li>
             </ul>
         </header>
+        <main class="userInterface ">
+            <form class="userInterface__form ">
+                <a href="# ">
+                    <i class="material-icons userInterface__form__icon ">add</i>
+                </a>
+            </form>
+
+        </main>
+    </div>
