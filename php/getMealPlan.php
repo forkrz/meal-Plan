@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 require_once "../php/classes/MealPlans.php";
-
+require_once "../php/classes/Database.php";
+$config = require '../php/config/dbconfig.php';
 header("Access-Control-Allow-Origin: http://mp.localhost");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET");
@@ -10,5 +11,11 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 $mealPlans = new Meals();
-$response = file_get_contents($mealPlans->getRandomRecipe("50", "vegetarian,dessert"));
-var_dump($response);
+$database = new Database($config);
+// $response = file_get_contents($mealPlans->generateMealPlan("day", "2500", ""));
+// file_put_contents("../temporary/test.json", $response);
+
+$json = file_get_contents("../temporary/test.json");
+$decode = json_decode($json, true);
+var_dump($decode['nutrients']['calories']);
+print($database->addMealPlan($decode['nutrients']['calories'], $decode['nutrients']['protein'], $decode['nutrients']['fat'], $decode['nutrients']['carbohydrates'], 'test11'));

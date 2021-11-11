@@ -13,6 +13,6 @@ class Meals
     public function getRandomRecipe(string $quantity, string $tags)
     {
         $url = "https://api.spoonacular.com/recipes/random?apiKey=405902d98d8745d5a055a828ea0d7330&number={$quantity}&tags={$tags}&limitLicense=true.";
-        return $url;
+        return json_decode($url);
     }
 }

@@ -24,4 +24,17 @@ class Database
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function addMealPlan(float $calories, float $proteins, float $fats, float $carbohydrates, string $login)
+    {
+        $query = "INSERT INTO meal_plans (CALORIES,PROTEINS,FATS,CARBOHYDRATES,USER_LOGIN) VALUES (:CALORIES, :PROTEINS, :FATS, :CARBOHYDRATES, :USER_LOGIN)";
+        $statement = $this->con->prepare($query);
+        $statement->bindParam(':CALORIES', $calories);
+        $statement->bindParam(':PROTEINS', $proteins);
+        $statement->bindParam(':FATS', $fats);
+        $statement->bindParam(':CARBOHYDRATES', $carbohydrates);
+        $statement->bindParam(':USER_LOGIN', $login);
+        print($statement->bindParam(':CALORIES', $calories));
+        if ($statement->execute() ? true : false);
+    }
 }
