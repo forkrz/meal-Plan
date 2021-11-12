@@ -17,5 +17,4 @@ $database = new Database($config);
 
 $json = file_get_contents("../temporary/test.json");
 $decode = json_decode($json, true);
-var_dump($decode['nutrients']['calories']);
-print($database->addMealPlan($decode['nutrients']['calories'], $decode['nutrients']['protein'], $decode['nutrients']['fat'], $decode['nutrients']['carbohydrates'], 'test11'));
+$database->addMeals($decode['meals'], 'test11');
