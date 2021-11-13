@@ -16,29 +16,35 @@
 <body>
 
     <div class="wrapper">
-        <div class="modal">
-            <span class="preferences__span">Preferences:</span>
-            <label for="typesOfDiet" class="preferences__typesOfDiet">Choose a type of Diet:</label>
-            <select name="typesOfDiets" class="preferences__typesOfDiet__select">
-                <option value="Gluten Free">Gluten Free</option>
-                <option value="Ketogenic">Ketogenic</option>
-                <option value="Vegetarian">Vegetarian</option>
-                <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
-                <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
-                <option value="Vegan">Vegan</option>
-                <option value="Pescetarian">Pescetarian</option>
-                <option value="Primal">Primal</option>
-                <option value="Low FODMAP">Low FODMAP</option>
-                <option value="Whole30">Whole30</option>
-            </select>
-            <label for="typesOfDiet" class="preferences__typesOfDiet">Plan for day/week:</label>
-            <select name="mealPlanPeriod" class="preferences__typesOfDiet__select">
-                <option value="day">Day</option>
-                <option value="week">Week</option>
-            </select>
-            <label for="calories" class="preferences__typesOfDiet">Calories:</label>
-            <input type="number" name="calories" class="preferences__typesOfDiet__input">
-            <button class="form__button form__button--modal" id="button">generate</button>
+        <div class="modal hide" id="modal">
+            <div class="modal__content">
+                <header class="modal__header">
+                    <button class="material-icons modal__header__button" id="closeButton">close</button>
+                    <span class="modal__content__span">Preferences:</span>
+                </header>
+                <label for="typesOfDiet" class="modal__content__typesOfDiet">Choose a type of Diet:</label>
+                <select name="typesOfDiets" class="modal__content__typesOfDiet__select" id="typeOfDietSelect">
+                    <option value="Gluten Free">Gluten Free</option>
+                    <option value="Ketogenic">Ketogenic</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
+                    <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Pescetarian">Pescetarian</option>
+                    <option value="Primal">Primal</option>
+                    <option value="Low FODMAP">Low FODMAP</option>
+                    <option value="Whole30">Whole30</option>
+                </select>
+                <label for="typesOfDiet" class="modal__content__typesOfDiet">Plan for day/week:</label>
+                <select name="mealPlanPeriod" class="modal__content__typesOfDiet__select" id="planLength">
+                    <option value="day">Day</option>
+                    <option value="week">Week</option>
+                </select>
+                <label for="calories" class="modal__content__typesOfDiet">Calories:</label>
+                <input type="number" oninput="validity.valid||(value='');" name="calories" class="modal__content__typesOfDiet__input" id="calories">
+                <span class="form_errorInfo hide" id="CaloriesErrorInfo">This field cannont be empty or equal to 0</span>
+                <button class="form__button form__button--modal" id="generateMealPlanbutton">generate</button>
+            </div>
         </div>
         <header class=" header ">
             <h1 class="header__logo ">MEAL PLAN</h1>
@@ -52,10 +58,10 @@
         </header>
         <main class="userInterface ">
             <form class="userInterface__form ">
-                <a href="# ">
-                    <i class="material-icons userInterface__form__icon ">add</i>
-                </a>
+                <i class="material-icons userInterface__form__icon" id="addMealPlanIcon">add</i>
             </form>
 
         </main>
     </div>
+
+    <script src="../js/afterLogin.js" type="module"></script>

@@ -200,9 +200,22 @@ li {
 .userInterface__form__icon {
   color: #F3EFF5;
   font-size: 2rem;
+  cursor: pointer;
 }
 
 .modal {
+  position: absolute;
+  padding: 2rem;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal__content {
   position: absolute;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -223,42 +236,63 @@ li {
   width: 35%;
   background-color: #F3EFF5;
   border-radius: 2rem;
-  font: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
-.preferences__span {
+.modal__content__span {
   display: block;
   padding: 1rem 5rem;
   font: "Roboto", sans-serif;
   font-weight: bold;
   width: 40vw;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
-.preferences__typesOfDiet {
+.modal__content__typesOfDiet {
   padding-top: 1.5rem;
   margin-bottom: 0.5rem;
-  width: 30%;
-  font-size: 1.2rem;
+  width: 40%;
+  font-size: 1rem;
+  left: 25%;
 }
 
-.preferences__typesOfDiet__select {
+.modal__content__typesOfDiet__select {
   width: 40%;
   border-radius: 2rem;
   margin: 0.5rem 0;
 }
 
-.preferences__typesOfDiet__input {
+.modal__content__typesOfDiet__input {
   width: 40%;
   border-radius: 2rem;
   margin: 0.5rem 0;
-}
-
-label:nth-child(6) {
-  margin-left: 5rem;
 }
 
 .form__button--modal {
   width: 40%;
+}
+
+.modal__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.modal__header__button {
+  position: absolute;
+  left: 90%;
+  bottom: 90%;
+  border: none;
+  cursor: pointer;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 /*# sourceMappingURL=main.css.map */

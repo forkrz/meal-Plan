@@ -1,7 +1,7 @@
 import { Api } from './Api.js';
 import { Cookies } from './Cookies.js';
 export class Validator {
-    constructor(login, password, loginErrorInfo, passwordErrorInfo, buttonErrorInfo) {
+    constructor(login = null, password = null, loginErrorInfo = null, passwordErrorInfo = null, buttonErrorInfo = null) {
         this.login = login;
         this.password = password;
         this.loginErrorInfo = loginErrorInfo;
@@ -119,7 +119,7 @@ export class Validator {
             return true;
         }
     }
-    ApiloginVisualValidation = async() => {
+    apiloginVisualValidation = async() => {
 
         const apiRes = await this.Api.loginHandler();
         const apiData = await this.Api.sendAuthData();
@@ -131,4 +131,23 @@ export class Validator {
             buttonErrorInfo.classList.remove('hide');
         }
     }
+
+    CaloriesInputValidation = (input) => {
+        if (input != null && input != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    CaloriesInputVisualValidation = (input, errorBox) => {
+        if (this.CaloriesInputValidation(input)) {
+            this.Api.generateMealPlan();
+            return true;
+        } else {
+            errorBox.classList.remove('hide');
+            return false;
+        }
+    }
+
 }
