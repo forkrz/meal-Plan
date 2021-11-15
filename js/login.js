@@ -16,5 +16,5 @@ login.addEventListener('keyup', Valid.loginVisualValidation);
 password.addEventListener('keyup', Valid.passwordVisualValidation);
 button.addEventListener('click', (e) => {
     e.preventDefault();
-    Valid.ApiloginVisualValidation();
+    Valid.apiloginVisualValidation();
 })

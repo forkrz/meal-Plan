@@ -181,26 +181,29 @@ li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-}
-
-.userInterface__form {
-  height: calc(100vh- 2rem);
-  width: calc(100vw - 2rem);
-  border-radius: 2rem;
-  padding: 4rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
 }
 
+.userInterface__form {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
 .userInterface__form__icon {
   color: #F3EFF5;
   font-size: 2rem;
   cursor: pointer;
+  display: block;
+  padding: 0.5rem 0.5rem;
 }
 
 .modal {
@@ -288,11 +291,72 @@ li {
   bottom: 90%;
   border: none;
   cursor: pointer;
+  padding: 0.5rem;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.userInterface__tableContent__table {
+  border: 0.5rem solid #0D0A0B;
+  background-color: #F3EFF5;
+  max-height: 75vh;
+  border-collapse: collapse;
+  background-color: #F3EFF5;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #cec9c9;
+}
+
+.userInterface__tableContent__table__headings {
+  height: 5rem;
+}
+
+th {
+  border-bottom: 0.5rem solid #0D0A0B;
+}
+
+tr {
+  text-align: center;
+}
+
+.table_nav {
+  padding-top: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.table_nav__icons {
+  cursor: pointer;
+  padding: 0 1rem;
+  font-size: 2rem;
+  color: #F3EFF5;
+}
+
+.userInterface__tableContent {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+td {
+  font-size: 1.2rem;
+  padding: 1rem 0.5rem;
+  min-width: 200px;
 }
 /*# sourceMappingURL=main.css.map */

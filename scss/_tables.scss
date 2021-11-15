@@ -1,0 +1,48 @@
+.userInterface__tableContent__table {
+    border: 0.5rem solid $black;
+    background-color: $white;
+    max-height: 75vh;
+    border-collapse: collapse;
+    background-color: $white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgb(206, 201, 201);
+}
+
+.userInterface__tableContent__table__headings {
+    height: 5rem;
+}
+
+th {
+    border-bottom: 0.5rem solid $black;
+}
+
+tr {
+    text-align: center;
+}
+
+.table_nav {
+    padding-top: 2rem;
+    display: flex;
+}
+
+.table_nav__icons {
+    cursor: pointer;
+    padding: 0 1rem;
+    font-size: 2rem;
+    color: $white;
+}
+
+.userInterface__tableContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+td {
+    font-size: 1.2rem;
+    padding: 1rem 0.5rem;
+    min-width: 200px;
+}
