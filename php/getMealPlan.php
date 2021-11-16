@@ -15,6 +15,8 @@ $database = new Database($config);
 // $response = file_get_contents($mealPlans->generateMealPlan("day", "2500", ""));
 // file_put_contents("../temporary/test.json", $response);
 
-$json = file_get_contents("../temporary/test.json");
-$decode = json_decode($json, true);
-$database->addMeals($decode['meals'], 'test11');
+// $json = file_get_contents("../temporary/test.json");
+// $decode = json_decode($json, true);
+// $database->addMeals($decode['meals'], 'test11');
+
+print_r($database->getPaginatedRecords('test11'));
