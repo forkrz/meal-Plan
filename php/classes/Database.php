@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-require_once './classes/Pagination.php';
+require_once '../classes/Pagination.php';
 class Database
 {
     function __construct(array $config)
@@ -72,9 +72,10 @@ class Database
         return $count;
     }
 
-    public function getPaginatedRecords($login)
+    public function getPaginatedRecords(string $login, string $min, string $max)
     {
-        $query = "SELECT * FROM meals INNER JOIN meal_plans On meals.PLAN_ID = meal_plans.PLAN_ID WHERE meal_plans.USER_LOGIN =:USER_LOGIN LIMIT {$this->pagin->getMinRecordOnPage()}, {$this->pagin->getMaxRecordOnPage()}";
+        $meals = $this->pagin->getMeals($min, $max, $this->getTotalQuantityOfMealsForUser($login));
+        $query = "SELECT * FROM meals INNER JOIN meal_plans On meals.PLAN_ID = meal_plans.PLAN_ID WHERE meal_plans.USER_LOGIN =:USER_LOGIN LIMIT {$meals['min']}, {$meals['max']}";
         $statement = $this->con->prepare($query);
         $statement->bindParam(':USER_LOGIN', $login);
         $statement->execute();
@@ -92,7 +93,7 @@ class Database
     }
     public function getLastRecordsPaginated($login)
     {
-        $recordsTotal = $this->getPaginatedRecords($login);
+        $recordsTotal = $this->getTotalQuantityOfMealsForUser($login);
         if ($recordsTotal < 10) {
             $minRecords = 0;
             $maxRecords = $recordsTotal;

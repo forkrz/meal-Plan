@@ -6,7 +6,7 @@ export class Api {
     }
 
     sendAuthData = async() => {
-        const response = await (fetch('http://mp.localhost/php/login.php', {
+        const response = await (fetch('http://mp.localhost/php/api/login.php', {
             method: 'POST',
             body: JSON.stringify({
                 LOGIN: login.value,
@@ -29,7 +29,7 @@ export class Api {
     }
 
     generateMealPlan = async(diet, timeframe, calories) => {
-        const response = await (fetch('http://mp.localhost/php/getMealPlan.php', {
+        const response = await (fetch('http://mp.localhost/php/api/getMealPlan.php', {
             method: 'get',
             body: JSON.stringify({
                 DIET: diet,

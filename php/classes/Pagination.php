@@ -1,31 +1,37 @@
 <?php
 
 declare(strict_types=1);
-require_once "./classes/Database.php";
+require_once "../classes/Database.php";
 
 class Pagination
 {
-    private function getCurrentPageNumber($totalRecords)
-    {
-        $page = $_GET['page'];
-        if (!isset($_GET['page'])) {
-            $page = 1;
-            return $page;
-        } elseif ($page > $totalRecords) {
-            return $totalRecords;
-        } else {
-            return $page;
+    private function getMinMeals(string $min)
+    { {
+            if ($min < 10) {
+                return 0;
+            } else {
+                return $min;
+            }
         }
     }
 
-    public function getMinRecordOnPage($totalRecords)
+    private function getMaxMeals(string $max, string $totalRecords)
     {
-        $minRecordsOnPage = ($this->getCurrentPageNumber($totalRecords) - 1) * 10;
-        return $minRecordsOnPage;
+        if ($max > $totalRecords) {
+            return $totalRecords;
+        } else {
+            return $max;
+        }
     }
-    public function getMaxRecordOnPage($totalRecords)
+
+    public function getMeals(string $min, string $max, string $totalRecords)
     {
-        $minRecordsOnPage = ($this->getCurrentPageNumber($totalRecords) - 1) * 10 + 10;
-        return $minRecordsOnPage;
+        $minMeals = $this->getMinMeals($min);
+        $maxMeals = $this->getMaxMeals($max, $totalRecords);
+        $meals = array(
+            'min' => $minMeals,
+            'max' => $maxMeals
+        );
+        return $meals;
     }
 }
