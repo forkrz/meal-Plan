@@ -30,7 +30,7 @@ export class Api {
 
     generateMealPlan = async(diet, timeframe, calories) => {
         const response = await (fetch('http://mp.localhost/php/api/getMealPlan.php', {
-            method: 'get',
+            method: 'POST',
             body: JSON.stringify({
                 DIET: diet,
                 TIMEFRAME: timeframe,
@@ -46,10 +46,8 @@ export class Api {
     generateMealPlanHander = async(diet, timeframe, calories) => {
         const res = await this.generateMealPlan(diet, timeframe, calories);
         if (res.status === 200) {
-            console.log('ok');
             return true;
         } else {
-            console.log('nie ok');
             return false;
         }
 

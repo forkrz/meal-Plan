@@ -140,9 +140,9 @@ export class Validator {
         }
     }
 
-    CaloriesInputVisualValidation = (input, errorBox) => {
+    CaloriesInputVisualValidation = (input, errorBox, diet, timeframe, calories) => {
         if (this.CaloriesInputValidation(input)) {
-            this.Api.generateMealPlan();
+            this.Api.generateMealPlan(diet, timeframe, calories);
             return true;
         } else {
             errorBox.classList.remove('hide');

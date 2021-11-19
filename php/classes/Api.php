@@ -40,7 +40,7 @@ class Api
             http_response_code(200);
             echo json_encode(
                 array(
-                    "message" => "Successful login.",
+                    "message" => "Meals picked",
                     "mealsData" => $data
                 )
             );
@@ -49,20 +49,24 @@ class Api
             echo json_encode(array("message" => "Login failed."));
         }
     }
-    public function sendGeneratedMealPlan(string $timeFrame, string $targetCalories, string $diet)
+    public function sendGeneratedMealPlan(array $array, string $login, string $JWT)
     {
-        if ($this->meals->generateMealPlan($timeFrame, $targetCalories, $diet)) {
-            $data = $this->meals->generateMealPlan($timeFrame, $targetCalories, $diet);
-            http_response_code(200);
-            echo json_encode(
-                array(
-                    "message" => "Successful login.",
-                    "mealsData" => $data
-                )
-            );
+        if ($this->JWT->decodeJwt($JWT) !== false) {
+            if ($this->db->addMealsTotal($array, $login)) {
+                http_response_code(200);
+                echo json_encode(
+                    array(
+                        "message" => "Meal Plan generated",
+                        "mealsData" => $array
+                    )
+                );
+            } else {
+                http_response_code(401);
+                echo json_encode(array("message" => "Unable to add Plan1."));
+            }
         } else {
             http_response_code(401);
-            echo json_encode(array("message" => "Login failed."));
+            echo json_encode(array("message" => "Unable to add Plan2."));
         }
     }
 }
