@@ -25,14 +25,14 @@ $data = json_decode((file_get_contents("php://input")), true);
 $jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzczNTk1MDYsImV4cCI6MTYzNzM2NjcwNiwiaXNzIjoibXAubG9jYWxob3N0IiwibG9naW4iOiJ0ZXN0MTEifQ.OUcJU5_w6Z61r-U7TFpCKNFPJvzIbQzCVi1yA9CikhE";
 $jwtDecode = $tokens->decodeJwt($jwt);
 
-try {
-    $database->addMeals($mealPlans->generateMealPlan('day', '2500', 'Ketogenic'), $jwtDecode->login);
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
+// try {
+//     $database->addMeals($mealPlans->generateMealPlan('day', '2500', 'Ketogenic'), $jwtDecode->login);
+// } catch (Exception $e) {
+//     echo $e->getMessage();
+// }
 
 try {
-    ($api->sendGeneratedMealPlan($mealPlans->generateMealPlan('day', '2500', 'Ketogenic'), $jwtDecode->login, $jwt));
+    ($api->sendGeneratedMealPlan('test11', 'day', '2500', 'Ketogenic', $jwt));
 } catch (Exception $e) {
     echo $e->getMessage();
 }

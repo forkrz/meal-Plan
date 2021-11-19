@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 require_once 'Pagination.php';
+require_once 'MealPlans.php';
 class Database
 {
     function __construct(array $config)
     {
         $this->pagin = new Pagination();
+        $this->meal = new Meals();
         try {
             $dsn = "mysql:host={$config['host']};dbname={$config['dbname']}";
             $this->con = new PDO($dsn, $config['user'], $config['password']);
@@ -35,7 +37,11 @@ class Database
         $statement->bindParam(':FATS', $array['nutrients']['fat']);
         $statement->bindParam(':CARBOHYDRATES', $array['nutrients']['carbohydrates']);
         $statement->bindParam(':USER_LOGIN', $login);
-        if ($statement->execute() ? true : false);
+        if ($statement->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
     private function getLatestMealPLanID(string $login)
     {
@@ -59,15 +65,15 @@ class Database
             $statement->bindParam(':PREPTIME', $meal['readyInMinutes']);
             $statement->bindParam(':SERVINGS', $meal['servings']);
             $statement->execute();
-            return $statement;
         }
     }
 
-    public function addMealsTotal($array, $login)
+    public function addMealsTotal(string $login, string $timeFrame, string $targetCalories, string $diet)
     {
+        $array = $this->meal->generateMealPlan($timeFrame, $targetCalories, $diet);
         if ($this->addMealPlan($array, $login)) {
             $this->addMeals($array, $login);
-            return true;
+            return $array;
         } else {
             return false;
         }

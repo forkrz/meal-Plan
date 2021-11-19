@@ -49,15 +49,15 @@ class Api
             echo json_encode(array("message" => "Login failed."));
         }
     }
-    public function sendGeneratedMealPlan(array $array, string $login, string $JWT)
+    public function sendGeneratedMealPlan(string $login, string $timeFrame, string $targetCalories, string $diet, string $JWT)
     {
         if ($this->JWT->decodeJwt($JWT) !== false) {
-            if ($this->db->addMealsTotal($array, $login)) {
+            if ($this->db->addMealsTotal($login, $timeFrame, $targetCalories, $diet) !== false) {
                 http_response_code(200);
                 echo json_encode(
                     array(
                         "message" => "Meal Plan generated",
-                        "mealsData" => $array
+                        "mealsData" => $this->db->addMealsTotal($login, $timeFrame, $targetCalories, $diet)
                     )
                 );
             } else {
