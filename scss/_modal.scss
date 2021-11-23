@@ -77,3 +77,9 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.form_errorInfoModal {
+    padding-top: 1rem;
+    color: $red;
+    font-weight: bold;
+}

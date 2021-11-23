@@ -7,7 +7,7 @@ $config = require '../php/config/dbconfig.php';
 require_once("../classes/Api.php");
 header("Access-Control-Allow-Origin: http://mp.localhost");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
@@ -17,9 +17,11 @@ $mealPlans = new Meals();
 $database = new Database($config);
 $api = new Api($config);
 $data = json_decode((file_get_contents("php://input")), true);
+echo ($decode);
+
+
 try {
-    ($api->sendGeneratedMealPlan($data, $data, $data, $data));
-    $database->addMealPlan($calories, $proteins, $fats, $carbohydrates, $data);
+    ($api->sendGeneratedMealPlan('day', '2500', 'Ketogenic', $jwt));
 } catch (Exception $e) {
     echo $e->getMessage();
 }

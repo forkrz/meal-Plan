@@ -132,7 +132,7 @@ export class Validator {
         }
     }
 
-    CaloriesInputValidation = (input) => {
+    caloriesInputValidation = (input) => {
         if (input != null && input != 0) {
             return true;
         } else {
@@ -140,9 +140,9 @@ export class Validator {
         }
     }
 
-    CaloriesInputVisualValidation = (input, errorBox, diet, timeframe, calories) => {
-        if (this.CaloriesInputValidation(input)) {
-            this.Api.generateMealPlan(diet, timeframe, calories);
+    caloriesInputVisualValidation = (input, errorBox) => {
+        if (this.caloriesInputValidation(input)) {
+            errorBox.classList.add('hide');
             return true;
         } else {
             errorBox.classList.remove('hide');
@@ -150,4 +150,9 @@ export class Validator {
         }
     }
 
+    generateMealPlanHandler = (diet, timeframe, calories) => {
+        if (this.caloriesInputValidation(calories)) {
+            this.Api.generateMealPlan(diet, timeframe, calories)
+        }
+    }
 }

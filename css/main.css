@@ -124,6 +124,7 @@ main {
 }
 
 .form_errorInfo {
+  display: block;
   padding-bottom: 1rem;
   color: #ac1010;
   font-weight: bold;
@@ -298,6 +299,12 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.form_errorInfoModal {
+  padding-top: 1rem;
+  color: #ac1010;
+  font-weight: bold;
 }
 
 .userInterface__tableContent__table {

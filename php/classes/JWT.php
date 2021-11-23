@@ -5,7 +5,7 @@ declare(strict_types=1);
 declare(strict_types=1);
 require_once("Database.php");
 require_once("Verification.php");
-require_once("./config/tokenConfig.php");
+require_once(__DIR__ . "/../config/tokenConfig.php");
 require __DIR__ . "../../../vendor/autoload.php";
 
 use Firebase\JWT\JWT;
@@ -32,6 +32,7 @@ class JWTTokens
                 return $decode;
             } catch (Exception $e) {
                 echo $e->getMessage();
+                return false;
             }
         } else {
             return false;

@@ -40,7 +40,7 @@ export class Modals {
         </select>
         <label for="calories" class="modal__content__typesOfDiet">Calories:</label>
         <input type="number" oninput="validity.valid||(value='');" name="calories" class="modal__content__typesOfDiet__input" id="calories">
-        <span class="form_errorInfo hide" id="CaloriesErrorInfo">This field cannont be empty or equal to 0</span>
+        <span class="form_errorInfoModal hide" id="CaloriesErrorInfo">This field cannont be empty or equal to 0</span>
         <button class="form__button form__button--modal" id="generateMealPlanbutton">generate</button>
     </div>`
         this.displayModal(modalName);
@@ -112,15 +112,18 @@ export class Modals {
         const dietType = document.getElementById('typeOfDietSelect');
         const planLength = document.getElementById('planLength');
         const calories = document.getElementById('calories');
-
+        const caloriesErrorBox = document.getElementById('CaloriesErrorInfo');
         closeButton.addEventListener('click', () => {
             modalContainer.innerHTML = "";
             this.hideModal(modalContainer);
         });
 
-        generateMealPlanbutton.addEventListener('click', () => {
-            this.Validator.CaloriesInputVisualValidation(dietType.options[dietType.selectedIndex].text, planLength.options[planLength.selectedIndex].text, calories.value);
+        calories.addEventListener('keyup', () => {
+            this.Validator.caloriesInputVisualValidation(calories.value, caloriesErrorBox);
         });
 
+        generateMealPlanbutton.addEventListener('click', () => {
+            this.Api.generateMealPlanHandler();
+        });
     }
 }

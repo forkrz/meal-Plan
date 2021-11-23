@@ -22,9 +22,9 @@ $database = new Database($config);
 $tokens = new JWTTokens($config);
 $api = new Api($config);
 $data = json_decode((file_get_contents("php://input")), true);
-$jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzczNTk1MDYsImV4cCI6MTYzNzM2NjcwNiwiaXNzIjoibXAubG9jYWxob3N0IiwibG9naW4iOiJ0ZXN0MTEifQ.OUcJU5_w6Z61r-U7TFpCKNFPJvzIbQzCVi1yA9CikhE";
-$jwtDecode = $tokens->decodeJwt($jwt);
-
+$jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mzc3MDA4MjIsImV4cCI6MTYzNzcwODAyMiwiaXNzIjoibXAubG9jYWxob3N0IiwibG9naW4iOiJ0ZXN0MTEifQ._w8pC_s0KBz-jRoDUMJkg_LcV538a0F84nEpPnb02HM";
+$decode = $tokens->decodeJwt($jwt);
+print_r($decode);
 // try {
 //     $database->addMeals($mealPlans->generateMealPlan('day', '2500', 'Ketogenic'), $jwtDecode->login);
 // } catch (Exception $e) {
@@ -32,7 +32,7 @@ $jwtDecode = $tokens->decodeJwt($jwt);
 // }
 
 try {
-    ($api->sendGeneratedMealPlan('test11', 'day', '2500', 'Ketogenic', $jwt));
+    ($api->sendGeneratedMealPlan('day', '2500', 'Ketogenic', $jwt));
 } catch (Exception $e) {
     echo $e->getMessage();
 }
