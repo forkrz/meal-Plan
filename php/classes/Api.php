@@ -63,11 +63,11 @@ class Api
                 );
             } else {
                 http_response_code(401);
-                echo json_encode(array("message" => "Unable to add Plan1."));
+                echo json_encode(array("message" => "Unable to add Plan.Please try again later."));
             }
         } else {
             http_response_code(401);
-            echo json_encode(array("message" => "Unable to add Plan2."));
+            echo json_encode(array("message" => "Unable to add Plan.Please try again later."));
         }
     }
 }

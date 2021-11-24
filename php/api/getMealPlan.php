@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-require_once "../php/classes/MealPlans.php";
-require_once "../php/classes/Database.php";
-$config = require '../php/config/dbconfig.php';
-require_once("../classes/Api.php");
+require_once __DIR__ . "../../classes/MealPlans.php";
+require_once __DIR__ . "../../classes/Database.php";
+$config = require __DIR__ . '../../config/dbconfig.php';
+require_once __DIR__ . "../../classes/Api.php";
 header("Access-Control-Allow-Origin: http://mp.localhost");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
@@ -17,11 +17,10 @@ $mealPlans = new Meals();
 $database = new Database($config);
 $api = new Api($config);
 $data = json_decode((file_get_contents("php://input")), true);
-echo ($decode);
 
 
 try {
-    ($api->sendGeneratedMealPlan('day', '2500', 'Ketogenic', $jwt));
+    ($api->sendGeneratedMealPlan($data['TIMEFRAME'], $data['CALORIES'], $data['DIET'], $data["JWT"]));
 } catch (Exception $e) {
     echo $e->getMessage();
 }

@@ -22,7 +22,7 @@ export class Modals {
         </header>
         <label for="typesOfDiet" class="modal__content__typesOfDiet">Choose a type of Diet:</label>
         <select name="typesOfDiets" class="modal__content__typesOfDiet__select" id="typeOfDietSelect">
-            <option value="Gluten Free">Gluten Free</option>
+            <option value="Gluten-Free">Gluten-Free</option>
             <option value="Ketogenic">Ketogenic</option>
             <option value="Vegetarian">Vegetarian</option>
             <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
@@ -30,7 +30,7 @@ export class Modals {
             <option value="Vegan">Vegan</option>
             <option value="Pescetarian">Pescetarian</option>
             <option value="Primal">Primal</option>
-            <option value="Low FODMAP">Low FODMAP</option>
+            <option value="Low-FODMAP">Low-FODMAP</option>
             <option value="Whole30">Whole30</option>
         </select>
         <label for="typesOfDiet" class="modal__content__typesOfDiet">Plan for day/week:</label>
@@ -69,7 +69,7 @@ export class Modals {
             <option value="American">American</option>
             <option value="British">British</option>
             <option value="Chinese">Chinese</option>
-            <option value="Eastern European">Eastern European</option>
+            <option value="Eastern European">Eastern-European</option>
             <option value="Italian">Italian</option>
             <option value="Japanese">Japanese</option>
             <option value="Korean">Korean</option>
@@ -123,7 +123,7 @@ export class Modals {
         });
 
         generateMealPlanbutton.addEventListener('click', () => {
-            this.Api.generateMealPlanHandler();
+            this.Validator.generateMealPlanStatusHander(dietType.value, planLength.value, calories.value, caloriesErrorBox);
         });
     }
 }

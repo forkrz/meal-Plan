@@ -150,9 +150,24 @@ export class Validator {
         }
     }
 
-    generateMealPlanHandler = (diet, timeframe, calories) => {
-        if (this.caloriesInputValidation(calories)) {
-            this.Api.generateMealPlan(diet, timeframe, calories)
+    generateMealPlanHandler = (diet, timeframe, calories, errorbox) => {
+        if (this.caloriesInputVisualValidation(calories, errorbox)) {
+            return this.Api.generateMealPlan(diet, timeframe, calories);
         }
     }
+
+    generateMealPlanStatusHander = async(diet, timeframe, calories, errorbox) => {
+        const res = await this.generateMealPlanHandler(diet, timeframe, calories, errorbox);
+        const resJson = await res.json();
+        if (res.status === 200) {
+            errorbox.innerText = resJson.message;
+            errorbox.style.color = "#0B5F43";
+            errorbox.classList.remove('hide');
+        } else {
+            errorbox.innerText = resJson.message;
+            errorbox.classList.remove('hide');
+        }
+
+    }
+
 }

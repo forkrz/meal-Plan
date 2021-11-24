@@ -22,7 +22,7 @@ $database = new Database($config);
 $tokens = new JWTTokens($config);
 $api = new Api($config);
 $data = json_decode((file_get_contents("php://input")), true);
-$jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mzc3MDA4MjIsImV4cCI6MTYzNzcwODAyMiwiaXNzIjoibXAubG9jYWxob3N0IiwibG9naW4iOiJ0ZXN0MTEifQ._w8pC_s0KBz-jRoDUMJkg_LcV538a0F84nEpPnb02HM";
+$jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Mzc3MDQ4NDMsImV4cCI6MTYzNzcxMjA0MywiaXNzIjoibXAubG9jYWxob3N0IiwibG9naW4iOiJ0ZXN0MTEifQ.xLiZbRh2pew16AqcVA0KvltNatmS5Bd0sM-GMpMuW94";
 $decode = $tokens->decodeJwt($jwt);
 print_r($decode);
 // try {

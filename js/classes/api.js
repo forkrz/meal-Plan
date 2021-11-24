@@ -1,6 +1,7 @@
+import { Cookies } from "./Cookies.js";
 export class Api {
     constructor(login, password) {
-
+        this.Cookies = new Cookies;
         this.login = login;
         this.password = password;
     }
@@ -34,7 +35,8 @@ export class Api {
             body: JSON.stringify({
                 DIET: diet,
                 TIMEFRAME: timeframe,
-                CALORIES: calories
+                CALORIES: String(calories),
+                JWT: this.Cookies.getCookie('jwt')
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'
@@ -43,13 +45,4 @@ export class Api {
         return response;
     }
 
-    generateMealPlanHander = async(diet, timeframe, calories) => {
-        const res = await this.generateMealPlan(diet, timeframe, calories);
-        if (res.status === 200) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 }

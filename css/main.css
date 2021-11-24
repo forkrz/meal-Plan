@@ -124,7 +124,6 @@ main {
 }
 
 .form_errorInfo {
-  display: block;
   padding-bottom: 1rem;
   color: #ac1010;
   font-weight: bold;
