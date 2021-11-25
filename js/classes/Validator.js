@@ -167,7 +167,18 @@ export class Validator {
             errorbox.innerText = resJson.message;
             errorbox.classList.remove('hide');
         }
-
     }
 
+    getRandomRecipeHandler = async(diet, cuisine, meal, errorbox) => {
+        const res = await this.Api.getRandomRecipe(diet, cuisine, meal);
+        const resJson = await res.json();
+        if (res.status === 200) {
+            errorbox.innerText = resJson.message;
+            errorbox.style.color = "#0B5F43";
+            errorbox.classList.remove('hide');
+        } else {
+            errorbox.innerText = resJson.message;
+            errorbox.classList.remove('hide');
+        }
+    }
 }

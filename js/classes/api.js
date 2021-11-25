@@ -45,4 +45,19 @@ export class Api {
         return response;
     }
 
+    getRandomRecipe = async(diet, cuisine, meal) => {
+        const response = await (fetch('http://mp.localhost/php/api/getRandomRecipe.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                DIET: diet,
+                CUISINE: cuisine,
+                MEAL: meal,
+                JWT: this.Cookies.getCookie('jwt')
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        }));
+        return response;
+    }
 }

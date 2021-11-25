@@ -53,7 +53,7 @@ export class Modals {
         </header>
         <label for="typesOfDiet" class="modal__content__typesOfDiet">Choose a type of Diet:</label>
         <select name="typesOfDiets" class="modal__content__typesOfDiet__select" id="typeOfDietSelect">
-            <option value="Gluten Free">Gluten Free</option>
+            <option value="Gluten-Free">Gluten-Free</option>
             <option value="Ketogenic">Ketogenic</option>
             <option value="Vegetarian">Vegetarian</option>
             <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
@@ -65,7 +65,7 @@ export class Modals {
             <option value="Whole30">Whole30</option>
         </select>
         <label for="typesOfCuisines" class="modal__content__typesOfDiet">Choose a type of cuisine:</label>
-        <select name="typesOfCuisines" class="modal__content__typesOfDiet__select" id="typeOfDietSelect">
+        <select name="typesOfCuisines" class="modal__content__typesOfDiet__select" id="typesOfCuisines">
             <option value="American">American</option>
             <option value="British">British</option>
             <option value="Chinese">Chinese</option>
@@ -78,10 +78,10 @@ export class Modals {
             <option value="Thai">Thai</option>
         </select>
         <label for="typesOfMeals" class="modal__content__typesOfDiet">Choose a type of meal:</label>
-        <select name="typesOfMeals" class="modal__content__typesOfDiet__select" id="typeOfDietSelect">
+        <select name="typesOfMeals" class="modal__content__typesOfDiet__select" id="typesOfMeals">
             <option value="breakfast">breakfast</option>
             <option value="soup">soup</option>
-            <option value="main course">main course</option>
+            <option value="main-course">main-course</option>
             <option value="salad">salad</option>
             <option value="fingerfood">fingerfood</option>
             <option value="snack">snack</option>
@@ -91,13 +91,25 @@ export class Modals {
             <option value="bread">bread</option>
         </select>
         <button class="form__button form__button--modal" id="generateMealPlanbutton">generate</button>
+        <span class="form_errorInfoModal hide" id="FinalError"></span>
+        <span class="material-icons nextModalPage">forward</span>
     </div>`
         this.displayModal(modalName);
     }
 
     getRandomRecipeModalHandler = (modalContainer, modalName) => {
         this.showGetRandomRecipeModal(modalContainer, modalName);
+
         const closeButton = document.getElementById('closeButton');
+        const getRandomRecipeButton = document.getElementById('generateMealPlanbutton');
+        const dietType = document.getElementById('typeOfDietSelect');
+        const cuisineType = document.getElementById('typesOfCuisines');
+        const mealsType = document.getElementById('typesOfMeals');
+        const errorBox = document.getElementById('FinalError');
+        getRandomRecipeButton.addEventListener('click', () => {
+            this.Validator.getRandomRecipeHandler(dietType.value, cuisineType.value, mealsType.value, errorBox)
+        })
+
         closeButton.addEventListener('click', () => {
             modalContainer.innerHTML = "";
             this.hideModal(modalContainer);

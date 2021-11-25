@@ -33,20 +33,24 @@ class Api
         }
     }
 
-    public function sendRandomRecipes(string $tags)
+    public function sendRandomRecipes(string $diet, string $cuisine, string $meal, string $JWT)
     {
-        if ($this->meals->getRandomRecipe($tags)) {
-            $data = $this->meals->getRandomRecipe($tags);
-            http_response_code(200);
-            echo json_encode(
-                array(
-                    "message" => "Meals picked",
-                    "mealsData" => $data
-                )
-            );
+        if ($this->JWT->decodeJwt($JWT) !== false) {
+            if ($data = $this->meals->getRandomRecipe($diet, $cuisine, $meal)) {
+                http_response_code(200);
+                echo json_encode(
+                    array(
+                        "message" => "Meals have been drawn",
+                        "mealsData" => $data
+                    )
+                );
+            } else {
+                http_response_code(401);
+                echo json_encode(array("message" => "Unable to draw meals.Please try again later.1"));
+            }
         } else {
             http_response_code(401);
-            echo json_encode(array("message" => "Login failed."));
+            echo json_encode(array("message" => "Unable to draw meals.Please try again later.2"));
         }
     }
     public function sendGeneratedMealPlan(string $timeFrame, string $targetCalories, string $diet, string $JWT)

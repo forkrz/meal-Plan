@@ -18,7 +18,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    height: 50%;
+    min-height: 50%;
     width: 35%;
     background-color: $white;
     border-radius: 2rem;
@@ -82,4 +82,10 @@ input::-webkit-inner-spin-button {
     padding-top: 1rem;
     color: $red;
     font-weight: bold;
+}
+
+.nextModalPage {
+    position: absolute;
+    top: 20;
+    right: 0;
 }

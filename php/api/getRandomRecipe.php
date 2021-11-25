@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-require_once "../classes/MealPlans.php";
-require_once "../classes/Database.php";
-require_once("../classes/Api.php");
-$config = require '../config/dbconfig.php';
+require_once __DIR__ . "../../classes/MealPlans.php";
+require_once __DIR__ . "../../classes/Database.php";
+require_once __DIR__ . "../../classes/Api.php";
+$config = require __DIR__ . '../../config/dbconfig.php';
 header("Access-Control-Allow-Origin: http://mp.localhost");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET");
@@ -17,7 +17,7 @@ $api = new Api($config);
 $data = json_decode((file_get_contents("php://input")), true);
 
 try {
-    ($api->sendRandomRecipes($data));
+    ($api->sendRandomRecipes($data['DIET'], $data['CUISINE'], $data['MEAL'], $data['JWT']));
 } catch (Exception $e) {
     echo $e->getMessage();
 }

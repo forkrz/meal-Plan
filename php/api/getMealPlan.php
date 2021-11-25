@@ -13,11 +13,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 $mealPlans = new Meals();
 $database = new Database($config);
-$mealPlans = new Meals();
-$database = new Database($config);
 $api = new Api($config);
 $data = json_decode((file_get_contents("php://input")), true);
-
 
 try {
     ($api->sendGeneratedMealPlan($data['TIMEFRAME'], $data['CALORIES'], $data['DIET'], $data["JWT"]));
