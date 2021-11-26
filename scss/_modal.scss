@@ -55,7 +55,7 @@
 }
 
 .form__button--modal {
-    width: 40%;
+    max-width: 40%;
 }
 
 .modal__header {
@@ -84,8 +84,19 @@ input::-webkit-inner-spin-button {
     font-weight: bold;
 }
 
+.modal__content_buttonIconContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .nextModalPage {
-    position: absolute;
-    top: 20;
-    right: 0;
+    color: $gradient-green;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button {
+    border: none;
 }

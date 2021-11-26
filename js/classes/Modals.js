@@ -13,7 +13,10 @@ export class Modals {
     hideModal = (modalName) => {
         modalName.classList.add('hide');
     }
-
+    clearModalContent() {
+        const modal = document.getElementById('modalContent');
+        modal.innerHTML = "";
+    }
     showGenerateMealPlansModal = (modalContainer, modalName) => {
         modalContainer.innerHTML = `<div class="modal__content">
         <header class="modal__header">
@@ -46,7 +49,7 @@ export class Modals {
         this.displayModal(modalName);
     }
     showGetRandomRecipeModal = (modalContainer, modalName) => {
-        modalContainer.innerHTML = `<div class="modal__content">
+        modalContainer.innerHTML = `<div class="modal__content" id="modalContent">
         <header class="modal__header">
             <button class="material-icons modal__header__button" id="closeButton">close</button>
             <span class="modal__content__span">Preferences:</span>
@@ -90,11 +93,20 @@ export class Modals {
             <option value="beverage">beverage</option>
             <option value="bread">bread</option>
         </select>
-        <button class="form__button form__button--modal" id="generateMealPlanbutton">generate</button>
+        <div class = "modal__content_buttonIconContainer" id="buttonIconContainer">
+            <button class="form__button form__button--modal" id="generateMealPlanbutton">generate</button>
+        </div>
         <span class="form_errorInfoModal hide" id="FinalError"></span>
-        <span class="material-icons nextModalPage">forward</span>
     </div>`
         this.displayModal(modalName);
+    }
+
+    getRandomRecipeIfSuccessReplaceHTMLElemnts() {
+        const container = document.getElementById('buttonIconContainer')
+        const icon = document.createElement('button');
+        icon.innerHTML = '<span class="material-icons nextModalPage" id="nextModalPage">east</span>';
+        const button = container.firstChild;
+        container.replaceChildren(icon, button);
     }
 
     getRandomRecipeModalHandler = (modalContainer, modalName) => {
@@ -106,8 +118,13 @@ export class Modals {
         const cuisineType = document.getElementById('typesOfCuisines');
         const mealsType = document.getElementById('typesOfMeals');
         const errorBox = document.getElementById('FinalError');
+
         getRandomRecipeButton.addEventListener('click', () => {
-            this.Validator.getRandomRecipeHandler(dietType.value, cuisineType.value, mealsType.value, errorBox)
+            if (this.Validator.getRandomRecipeHandler(dietType.value, cuisineType.value, mealsType.value, errorBox)) {
+                this.getRandomRecipeIfSuccessReplaceHTMLElemnts();
+                const nextModalPage = document.getElementById('nextModalPage');
+                nextModalPage.addEventListener('click', this.clearModalContent)
+            }
         })
 
         closeButton.addEventListener('click', () => {

@@ -176,9 +176,11 @@ export class Validator {
             errorbox.innerText = resJson.message;
             errorbox.style.color = "#0B5F43";
             errorbox.classList.remove('hide');
+            return true;
         } else {
             errorbox.innerText = resJson.message;
             errorbox.classList.remove('hide');
+            return false;
         }
     }
 }
