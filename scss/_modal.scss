@@ -100,3 +100,32 @@ input::-webkit-inner-spin-button {
 button {
     border: none;
 }
+
+.randomRecpiesList {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    font-family: $font;
+}
+
+.randomRecpiesList__element {
+    width: 30%;
+    padding: 1rem;
+    padding-top: 3rem;
+    margin-left: 0;
+}
+
+.randomRecpiesSpan {
+    width: 100%;
+    font-weight: bold;
+    font-size: 2rem;
+    padding-bottom: 1rem;
+    font-family: $font;
+}
+
+.randomRecpiesList__href {
+    width: 30%;
+    padding: 1rem;
+    padding-top: 3rem;
+}

@@ -327,6 +327,40 @@ button {
   border: none;
 }
 
+.randomRecpiesList {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  width: 100%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  font-family: "Roboto", sans-serif;
+}
+
+.randomRecpiesList__element {
+  width: 30%;
+  padding: 1rem;
+  padding-top: 3rem;
+  margin-left: 0;
+}
+
+.randomRecpiesSpan {
+  width: 100%;
+  font-weight: bold;
+  font-size: 2rem;
+  padding-bottom: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.randomRecpiesList__href {
+  width: 30%;
+  padding: 1rem;
+  padding-top: 3rem;
+}
+
 .userInterface__tableContent__table {
   border: 0.5rem solid #0D0A0B;
   background-color: #F3EFF5;
