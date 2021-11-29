@@ -125,20 +125,18 @@ button {
     width: 100%;
 }
 
-.randomRecpiesList__element :last-child {
-    margin-left: 3rem;
-}
-
-.randomRecpiesList__href {
-    margin: 0 2rem;
+.randomRecpiesList__element__button {
+    display: inline-block;
+    margin-right: 3rem;
+    cursor: pointer;
     font-size: 1.5rem;
-    min-width: 20%;
 }
 
 .randomRecpiesList__element__span {
     display: inline-block;
+    margin-right: 3rem;
+    font-size: 1.5rem;
     width: 30%;
-    margin-right: 2rem;
 }
 
 .getNewRandomRecpies {

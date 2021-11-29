@@ -5,11 +5,12 @@ const modalContent = document.getElementById('modalContent');
 const modal = document.getElementById('modal');
 
 
-meals.forEach(meal => {
-    console.log(meal.extendedIngredients);
-})
 
-
+function getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute) {
+    const extendedIngredients = meals[i].extendedIngredients;
+    const result = extendedIngredients.map(ingredient => ingredient[atribute]);
+    return result;
+};
 
 function addList() {
     modalContent.insertAdjacentHTML('beforeend',
@@ -18,13 +19,17 @@ function addList() {
         <ul class="randomRecpiesList" id="randomRecpiesList"></ul>`)
 }
 
+function showAdditionalDataForOneRecipe() {
+
+}
+
 
 function testt() {
     const list = document.getElementById('randomRecpiesList');
     if (meals[i].title.length >= 10) {
         list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element">' + '<span class="randomRecpiesList__element__span">' +
             meals[i].title.substring(0, 12) + '...' + "</span>" +
-            '<a href="#" class="randomRecpiesList__href">Show recipe</a>' + '<a href="#" class="randomRecpiesList__href" id="showMeal">Save</a>' + '</li>');
+            '<button class="randomRecpiesList__element__button">Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="showMeal">Save</button>' + '</li>');
     } else {
         list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element">' + meals[i] + '</li>' +
             '<a href="#" class="randomRecpiesList__href">Show recipe</a>' + '<a href="#" class="randomRecpiesList__href">Save</a>');
@@ -32,7 +37,8 @@ function testt() {
 
     i++;
 }
-const igridients = meals[i].extendedIngredients;
+
+
 
 
 function showMeals() {
@@ -40,5 +46,3 @@ function showMeals() {
     meals.forEach(testt);
     modalContent.insertAdjacentHTML('beforeend', `<span class="material-icons getNewRandomRecpies">autorenew</span>`)
 }
-
-showMeals();
