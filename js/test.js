@@ -7,10 +7,24 @@ const modal = document.getElementById('modal');
 
 
 function getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute) {
-    const extendedIngredients = meals[i].extendedIngredients;
+    const extendedIngredients = meals[numberOfRecipe].extendedIngredients;
     const result = extendedIngredients.map(ingredient => ingredient[atribute]);
     return result;
 };
+
+function showReicpeDetailInfo(atribute) {
+    modalContent.insertAdjacentHTML('beforeend', '<ul class="ingirdients" id="listOfIngridents"></ul>');
+    const list = document.getElementById('listOfIngridents');
+    const ingirdientsData = getSpecifiedIngredientsDataForOneRecipe(0, atribute);
+    ingirdientsData.forEach(ingredient => {
+        const listelement = list.appendChild(document.createElement('li'));
+        listelement.insertAdjacentHTML('beforeend', ingirdientsData[i]);
+        listelement.className = "listOfIngridents__li";
+        i++;
+    });
+}
+
+showReicpeDetailInfo('originalString');
 
 function addList() {
     modalContent.insertAdjacentHTML('beforeend',
@@ -18,11 +32,6 @@ function addList() {
         <span class="randomRecpiesSpan">Recipes:</span>
         <ul class="randomRecpiesList" id="randomRecpiesList"></ul>`)
 }
-
-function showAdditionalDataForOneRecipe() {
-
-}
-
 
 function testt() {
     const list = document.getElementById('randomRecpiesList');
