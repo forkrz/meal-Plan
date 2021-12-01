@@ -19,7 +19,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     min-height: 50%;
-    width: 35%;
+    min-width: 35%;
     background-color: $white;
     border-radius: 2rem;
     font-family: $font;
@@ -143,4 +143,23 @@ button {
     padding-top: 1rem;
     font-size: 2rem;
     color: $gradient-green;
+}
+
+.ingirdients {
+    font-family: $font;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.listOfIngridents__header {
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.3rem;
+    padding-bottom: 0.5rem;
+}
+
+.listOfIngridents__li {
+    margin-left: 0;
+    padding-right: 1rem;
 }

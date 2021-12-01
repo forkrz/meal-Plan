@@ -4,7 +4,9 @@ let i = 0;
 const modalContent = document.getElementById('modalContent');
 const modal = document.getElementById('modal');
 
-
+function getPrepInstructionForOneRecipe(numberOfRecipe) {
+    return meals[numberOfRecipe].instructions;
+}
 
 function getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute) {
     const extendedIngredients = meals[numberOfRecipe].extendedIngredients;
@@ -12,15 +14,26 @@ function getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute) {
     return result;
 };
 
+function showPrepInstructionForOneMeal(numberOfRecipe) {
+    modalContent.insertAdjacentHTML('beforeend', '<span>' + getPrepInstructionForOneRecipe(numberOfRecipe) + '</span>')
+}
+
 function showReicpeDetailInfo(atribute) {
-    modalContent.insertAdjacentHTML('beforeend', '<ul class="ingirdients" id="listOfIngridents"></ul>');
+    modalContent.insertAdjacentHTML('beforeend', '<ul class="ingirdients" id="listOfIngridents"><header class="listOfIngridents__header">Ingridients:</header></ul>');
     const list = document.getElementById('listOfIngridents');
     const ingirdientsData = getSpecifiedIngredientsDataForOneRecipe(0, atribute);
     ingirdientsData.forEach(ingredient => {
         const listelement = list.appendChild(document.createElement('li'));
-        listelement.insertAdjacentHTML('beforeend', ingirdientsData[i]);
-        listelement.className = "listOfIngridents__li";
-        i++;
+        if (ingirdientsData.length - 1 === i) {
+            listelement.insertAdjacentHTML('beforeend', ingirdientsData[i]);
+            listelement.className = "listOfIngridents__li";
+            i++;
+        } else {
+            listelement.insertAdjacentHTML('beforeend', ingirdientsData[i] + ',');
+            listelement.className = "listOfIngridents__li";
+            i++;
+        }
+        showPrepInstructionForOneMeal(0);
     });
 }
 

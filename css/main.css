@@ -236,7 +236,7 @@ li {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   min-height: 50%;
-  width: 35%;
+  min-width: 35%;
   background-color: #F3EFF5;
   border-radius: 2rem;
   font-family: "Roboto", sans-serif;
@@ -374,6 +374,31 @@ button {
   padding-top: 1rem;
   font-size: 2rem;
   color: #0b5f43;
+}
+
+.ingirdients {
+  font-family: "Roboto", sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.listOfIngridents__header {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.3rem;
+  padding-bottom: 0.5rem;
+}
+
+.listOfIngridents__li {
+  margin-left: 0;
+  padding-right: 1rem;
 }
 
 .userInterface__tableContent__table {
