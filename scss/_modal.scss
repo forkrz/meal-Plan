@@ -156,10 +156,16 @@ button {
     width: 100%;
     font-weight: bold;
     font-size: 1.3rem;
-    padding-bottom: 0.5rem;
+    padding: 1rem 0;
 }
 
 .listOfIngridents__li {
+    padding-top: 0.5rem;
     margin-left: 0;
     padding-right: 1rem;
+}
+
+.recipeConatiner {
+    display: block;
+    padding-top: 0.5rem;
 }
