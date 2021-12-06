@@ -407,6 +407,25 @@ button {
   padding-top: 0.5rem;
 }
 
+.PrepTimeServings {
+  display: block;
+  padding: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.PrepTimeServings__span {
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  padding: 1rem 4rem 0 0;
+}
+
 .userInterface__tableContent__table {
   border: 0.5rem solid #0D0A0B;
   background-color: #F3EFF5;

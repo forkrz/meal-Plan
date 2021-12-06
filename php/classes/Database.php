@@ -68,6 +68,25 @@ class Database
         }
     }
 
+    public function saveRandomMeal(string $login, string $name, string $prepTime, string $servings, string $ingridients, string $instruction)
+    {
+        $query = "INSERT INTO random_meals(NAME,PREP_TIME,SERVINGS,INGRIDIENTS,INSTRUCTION,USER_LOGIN) VALUES (:NAME,:PREP_TIME,:SERVINGS,:INGRIDIENTS,:INSTRUCTION,:USER_LOGIN)";
+        $statement = $this->con->prepare($query);
+        $login = htmlspecialchars(strip_tags(($login)));
+        $login = htmlspecialchars(strip_tags(($name)));
+        $login = htmlspecialchars(strip_tags(($prepTime)));
+        $login = htmlspecialchars(strip_tags(($servings)));
+        $login = htmlspecialchars(strip_tags(($ingridients)));
+        $login = htmlspecialchars(strip_tags(($instruction)));
+        $statement->bindParam(':NAME', $name);
+        $statement->bindParam(':PREP_TIME', $prepTime);
+        $statement->bindParam(':SERVINGS', $servings);
+        $statement->bindParam(':INGRIDIENTS', $ingridients);
+        $statement->bindParam(':INSTRUCTION', $instruction);
+        $statement->execute();
+    }
+
+
     public function addMealsTotal(string $login, string $timeFrame, string $targetCalories, string $diet)
     {
         $array = $this->meal->generateMealPlan($timeFrame, $targetCalories, $diet);

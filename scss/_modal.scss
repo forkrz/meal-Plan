@@ -169,3 +169,18 @@ button {
     display: block;
     padding-top: 0.5rem;
 }
+
+.PrepTimeServings {
+    display: block;
+    padding: 1rem;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.PrepTimeServings__span {
+    font-weight: bold;
+    font-family: $font;
+    font-size: 1rem;
+    padding: 1rem 4rem 0 0;
+}

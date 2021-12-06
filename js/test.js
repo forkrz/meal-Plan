@@ -20,8 +20,9 @@ function showPrepInstructionForOneMeal(numberOfRecipe) {
 }
 
 function showPrepTimeAndQtyOfServings(numberOfRecipe) {
-    modalContent.insertAdjacentHTML('beforeend', '<div class="listOfIngridents__header"><span>Time to prepare: ' + meals[numberOfRecipe].readyInMinutes + 'min' + '</span><span>Servings:' + meals[numberOfRecipe].servings + '</span></div>')
+    modalContent.insertAdjacentHTML('beforeend', '<div class="PrepTimeServings"><span class="PrepTimeServings__span">Time to prepare: ' + meals[numberOfRecipe].readyInMinutes + 'min' + '</span><span class="PrepTimeServings__span">Servings:' + meals[numberOfRecipe].servings + '</span></div>')
 }
+
 
 
 function showReicpeDetailInfo(atribute, numberOfRecipe) {
@@ -72,11 +73,15 @@ function testt(element, n) {
     }
 }
 
-async function saveRecipe() {
+async function saveRecipe(title, prepTime, servings, ingredients, instruction) {
     const response = await (fetch('http://mp.localhost/php/api/saveRandomRecipe.php', {
         method: 'POST',
         body: JSON.stringify({
-            Recipe: diet,
+            Title: title,
+            prep_time: prepTime,
+            servings: servings,
+            ingredients: ingredients,
+            instruction: instruction,
             JWT: this.Cookies.getCookie('jwt')
         }),
         headers: {
