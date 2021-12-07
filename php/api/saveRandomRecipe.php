@@ -19,7 +19,7 @@ $verification = new Verification($config);
 $data = json_decode((file_get_contents("php://input")), true);
 $api = new Api($config);
 try {
-    $api->sendLoginData($data['LOGIN'], $data['PASSWORD']);
+    $api->saveRandomRecipe($data['JWT'], $data['name'], $data['prepTime'], $data['servings'], $data['ingredients'], $data['instruction']);
 } catch (Exception $e) {
     echo $e->getMessage();
 }

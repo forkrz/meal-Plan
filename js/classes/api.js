@@ -60,4 +60,22 @@ export class Api {
         }));
         return response;
     }
+
+    saveRecipe = async(title, prepTime, servings, ingredients, instruction) => {
+        const response = await (fetch('http://mp.localhost/php/api/saveRandomRecipe.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: title,
+                prepTime: prepTime,
+                servings: servings,
+                ingredients: ingredients,
+                instruction: instruction,
+                JWT: this.Cookies.getCookie('jwt')
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        }));
+        return response;
+    }
 }
