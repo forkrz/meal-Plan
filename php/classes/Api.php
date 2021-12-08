@@ -75,12 +75,13 @@ class Api
         }
     }
 
-    public function saveRandomRecipe(string $JWT, string $name, string $prepTime, string $servings, string $ingridients, string $instruction)
+    public function saveRandomRecipe(string $JWT, string $name, int $prepTime, int $servings, string $ingridients, string $instruction)
     {
         $login = $this->JWT->decodeJwt($JWT)->login;
         if ($this->JWT->decodeJwt($JWT) !== false) {
             if ($this->db->saveRandomMeal($login, $name, $prepTime, $servings, $ingridients, $instruction) !== false) {
                 http_response_code(200);
+                echo json_encode(array("message" => "Meal saved"));
             } else {
                 http_response_code(401);
                 echo json_encode(array("message" => "Unable to save Meal.Please try again later."));

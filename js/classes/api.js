@@ -61,14 +61,16 @@ export class Api {
         return response;
     }
 
-    saveRecipe = async(title, prepTime, servings, ingredients, instruction) => {
+    saveRanndomRecipe = async(title, prepTime, servings, ingredients, instruction) => {
+
+        const ingredientsString = ingredients.toString();
         const response = await (fetch('http://mp.localhost/php/api/saveRandomRecipe.php', {
             method: 'POST',
             body: JSON.stringify({
                 name: title,
                 prepTime: prepTime,
                 servings: servings,
-                ingredients: ingredients,
+                ingredients: ingredientsString,
                 instruction: instruction,
                 JWT: this.Cookies.getCookie('jwt')
             }),

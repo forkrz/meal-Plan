@@ -222,13 +222,13 @@ export class Modals {
         <ul class="randomRecpiesList" id="randomRecpiesList"></ul>`)
     }
 
-    showTitleOfRandomRecipe = (element, n) => {
+    showTitleOfRandomRecipeAndLinks = (element, n) => {
         const list = document.getElementById('randomRecpiesList');
 
         if (element.title.length >= 10) {
             list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element">' + '<span class="randomRecpiesList__element__span">' +
                 element.title.substring(0, 12) + '...' + "</span>" +
-                '<button class="randomRecpiesList__element__button" id="showRecipe' + n + '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' + '</li>');
+                '<button class="randomRecpiesList__element__button" id="showRecipe' + n + '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' + '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
         } else {
             list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element">' + element.title +
                 '<button class="randomRecpiesList__element__button" id="showRecipe' + n + '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' + '</li>');
@@ -241,13 +241,16 @@ export class Modals {
         modalContent.style.minWidth = 35 + "%";
         modalContent.style.maxWidth = 0;
         this.addList();
-        meals.forEach((el, n) => this.showTitleOfRandomRecipe(el, n));
+        meals.forEach((el, n) => this.showTitleOfRandomRecipeAndLinks(el, n));
         modalContent.insertAdjacentHTML('beforeend', `<span class="material-icons getNewRandomRecpies" id ="autorenew">autorenew</span>`)
 
         const showRecipe0 = document.getElementById('showRecipe0');
         const showRecipe1 = document.getElementById('showRecipe1');
         const showRecipe2 = document.getElementById('showRecipe2');
-
+        const saveRecipe0 = document.getElementById('saveRecipe0');
+        const saveRecipe1 = document.getElementById('saveRecipe1');
+        const saveRecipe2 = document.getElementById('saveRecipe2');
+        const errorBox = document.getElementById('FinalError');
         showRecipe0.addEventListener('click', () => {
             modalContent.innerHTML = "";
             this.showReicpeDetailInfo('originalString', 0);
@@ -260,6 +263,10 @@ export class Modals {
             modalContent.innerHTML = "";
             this.showReicpeDetailInfo('originalString', 2);
         });
+
+        saveRecipe0.addEventListener('click', () => {
+            this.Validator.saveRandomRecipeHandler(meals[0].title, meals[0].readyInMinutes, meals[0].servings, meals[0].extendedIngredients, meals[0].instructions, errorBox);
+        })
     }
 
 }

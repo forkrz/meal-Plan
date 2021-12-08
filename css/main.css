@@ -245,7 +245,7 @@ li {
 .modal__content__span {
   display: block;
   padding: 1rem 5rem;
-  font: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: bold;
   width: 40vw;
   font-size: 1.5rem;
@@ -374,6 +374,7 @@ button {
   padding-top: 1rem;
   font-size: 2rem;
   color: #0b5f43;
+  cursor: pointer;
 }
 
 .ingirdients {

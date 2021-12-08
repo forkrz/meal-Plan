@@ -183,4 +183,21 @@ export class Validator {
             return false;
         }
     }
+
+    saveRandomRecipeHandler = async(title, prepTime, servings, ingredients, instruction, errorBox) => {
+        const res = await this.Api.saveRanndomRecipe(title, prepTime, servings, ingredients, instruction, errorBox);
+        console.log(res);
+        const resJson = await res.json();
+        if (res.status === 200) {
+            errorBox.innerText = resJson.message;
+            errorBox.style.color = "#0B5F43";
+            errorBox.classList.remove('hide');
+            return true;
+        } else {
+            errorBox.innerText = resJson.message;
+            errorBox.classList.remove('hide');
+            return false;
+        }
+    }
+
 }
