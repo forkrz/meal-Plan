@@ -188,10 +188,11 @@ export class Modals {
 
 
     showReicpeDetailInfo = (atribute, numberOfRecipe) => {
+        const meals = test.recipes;
         const modalContent = document.getElementById('modalContent');
         let i = 0;
         modalContent.style.minWidth = 10;
-        modalContent.insertAdjacentHTML('beforeend', '<button class="material-icons modal__header__button" id="closeButton">close</button>' + '<ul class="ingirdients" id="listOfIngridents"><span class="listOfIngridents__header">Ingridients:</span></ul>');
+        modalContent.insertAdjacentHTML('beforeend', '<button class="material-icons modal__header__button" id="closeButton">close</button>' + '<ul class="ingirdients" id="listOfIngridents"><span class="listOfIngridents__header">' + meals[numberOfRecipe].title + '</span><span class="listOfIngridents__header">Ingridients:</span></ul>');
         const list = document.getElementById('listOfIngridents');
         const ingirdientsData = this.getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute);
         ingirdientsData.forEach(ingredient => {
@@ -235,6 +236,15 @@ export class Modals {
         }
     }
 
+    convertArrayOfIngridientsToString() {
+        const meals = test.recipes;
+        let ingr = [];
+        meals[0].extendedIngredients.forEach((ingirdient) => {
+            ingr.push(ingirdient.originalString);
+        })
+        return String(ingr);
+    }
+
     showGeneratedRandomMeals = (modalContent) => {
         const meals = test.recipes;
         modalContent.innerHTML = "";
@@ -251,6 +261,7 @@ export class Modals {
         const saveRecipe1 = document.getElementById('saveRecipe1');
         const saveRecipe2 = document.getElementById('saveRecipe2');
         const errorBox = document.getElementById('FinalError');
+        const randomRecpiesList__element = document.getElementById('randomRecpiesList__element');
         showRecipe0.addEventListener('click', () => {
             modalContent.innerHTML = "";
             this.showReicpeDetailInfo('originalString', 0);
@@ -265,7 +276,7 @@ export class Modals {
         });
 
         saveRecipe0.addEventListener('click', () => {
-            this.Validator.saveRandomRecipeHandler(meals[0].title, meals[0].readyInMinutes, meals[0].servings, meals[0].extendedIngredients, meals[0].instructions, errorBox);
+            this.Validator.saveRandomRecipeHandler(meals[0].title, meals[0].readyInMinutes, meals[0].servings, this.convertArrayOfIngridientsToString(), meals[0].instructions, errorBox, randomRecpiesList__element, saveRecipe0);
         })
     }
 

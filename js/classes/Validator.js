@@ -1,5 +1,6 @@
 import { Api } from './Api.js';
 import { Cookies } from './Cookies.js';
+import { HtmlElements } from './HtmlElements.js';
 export class Validator {
     constructor(login = null, password = null, loginErrorInfo = null, passwordErrorInfo = null, buttonErrorInfo = null) {
         this.login = login;
@@ -8,6 +9,7 @@ export class Validator {
         this.passwordErrorInfo = passwordErrorInfo;
         this.Api = new Api;
         this.Cookies = new Cookies;
+        this.HtmlElements = new HtmlElements;
         this.buttonErrorInfo = buttonErrorInfo;
     }
 
@@ -184,14 +186,17 @@ export class Validator {
         }
     }
 
+
+
     saveRandomRecipeHandler = async(title, prepTime, servings, ingredients, instruction, errorBox) => {
-        const res = await this.Api.saveRanndomRecipe(title, prepTime, servings, ingredients, instruction, errorBox);
-        console.log(res);
+        const res = await this.Api.saveRanndomRecipe(title, prepTime, servings, ingredients, instruction);
         const resJson = await res.json();
+        const saveIcon = document.getElementById('saveRecipe0');
+        const li = document.getElementsByTagName('li')[0];
         if (res.status === 200) {
             errorBox.innerText = resJson.message;
             errorBox.style.color = "#0B5F43";
-            errorBox.classList.remove('hide');
+            this.HtmlElements.createSuccessIcon(li, saveIcon);
             return true;
         } else {
             errorBox.innerText = resJson.message;

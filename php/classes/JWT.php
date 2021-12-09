@@ -31,7 +31,6 @@ class JWTTokens
                 $decode = JWT::decode($JWT, "example_key", array_keys(JWT::$supported_algs));
                 return $decode;
             } catch (Exception $e) {
-                echo $e->getMessage();
                 return false;
             }
         } else {
