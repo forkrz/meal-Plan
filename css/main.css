@@ -486,4 +486,38 @@ td {
   padding: 1rem 0.5rem;
   min-width: 200px;
 }
+
+.tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  width: 100%;
+  font-size: 0.7rem;
+  letter-spacing: 0;
+}
+
+.tab {
+  border-bottom: 2rem solid #0b5f43;
+  border-left: 1rem solid transparent;
+  border-right: 1rem solid transparent;
+  height: 0;
+  width: 5rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  color: #F3EFF5;
+  text-align: center;
+}
 /*# sourceMappingURL=main.css.map */

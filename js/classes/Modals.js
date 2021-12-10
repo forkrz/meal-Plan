@@ -190,6 +190,7 @@ export class Modals {
     showReicpeDetailInfo = (atribute, numberOfRecipe) => {
         const meals = test.recipes;
         const modalContent = document.getElementById('modalContent');
+        const modal = document.getElementById('modal');
         let i = 0;
         modalContent.style.minWidth = 10;
         modalContent.insertAdjacentHTML('beforeend', '<button class="material-icons modal__header__button" id="closeButton">close</button>' + '<ul class="ingirdients" id="listOfIngridents"><span class="listOfIngridents__header">' + meals[numberOfRecipe].title + '</span><span class="listOfIngridents__header">Ingridients:</span></ul>');
@@ -211,8 +212,8 @@ export class Modals {
         this.showPrepInstructionForOneMeal(numberOfRecipe);
         const closeButton = document.getElementById('closeButton');
         closeButton.addEventListener('click', () => {
-            modalContent.innerHTML = "";
-            this.showGeneratedRandomMeals(modalContent);
+            modal.innerHTML = "";
+            modal.classList.add('hide');
         })
     }
 
@@ -227,7 +228,7 @@ export class Modals {
         const list = document.getElementById('randomRecpiesList');
 
         if (element.title.length >= 10) {
-            list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element">' + '<span class="randomRecpiesList__element__span">' +
+            list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' + '<span class="randomRecpiesList__element__span">' +
                 element.title.substring(0, 12) + '...' + "</span>" +
                 '<button class="randomRecpiesList__element__button" id="showRecipe' + n + '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' + '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
         } else {
@@ -236,10 +237,10 @@ export class Modals {
         }
     }
 
-    convertArrayOfIngridientsToString() {
+    convertArrayOfIngridientsToString(numberOfRecipe) {
         const meals = test.recipes;
         let ingr = [];
-        meals[0].extendedIngredients.forEach((ingirdient) => {
+        meals[numberOfRecipe].extendedIngredients.forEach((ingirdient) => {
             ingr.push(ingirdient.originalString);
         })
         return String(ingr);
@@ -261,7 +262,14 @@ export class Modals {
         const saveRecipe1 = document.getElementById('saveRecipe1');
         const saveRecipe2 = document.getElementById('saveRecipe2');
         const errorBox = document.getElementById('FinalError');
-        const randomRecpiesList__element = document.getElementById('randomRecpiesList__element');
+        const closeButton = document.getElementById('closeButton');
+        const modal = document.getElementById('modal');
+
+        closeButton.addEventListener('click', () => {
+            modal.innerHTML = "";
+            modal.classList.add('hide');
+        })
+
         showRecipe0.addEventListener('click', () => {
             modalContent.innerHTML = "";
             this.showReicpeDetailInfo('originalString', 0);
@@ -276,7 +284,15 @@ export class Modals {
         });
 
         saveRecipe0.addEventListener('click', () => {
-            this.Validator.saveRandomRecipeHandler(meals[0].title, meals[0].readyInMinutes, meals[0].servings, this.convertArrayOfIngridientsToString(), meals[0].instructions, errorBox, randomRecpiesList__element, saveRecipe0);
+            this.Validator.saveRandomRecipeHandler(meals[0].title, meals[0].readyInMinutes, meals[0].servings, this.convertArrayOfIngridientsToString(0), meals[0].instructions, errorBox, 0);
+        })
+
+        saveRecipe1.addEventListener('click', () => {
+            this.Validator.saveRandomRecipeHandler(meals[1].title, meals[1].readyInMinutes, meals[1].servings, this.convertArrayOfIngridientsToString(1), meals[1].instructions, errorBox, 1);
+        })
+
+        saveRecipe2.addEventListener('click', () => {
+            this.Validator.saveRandomRecipeHandler(meals[2].title, meals[2].readyInMinutes, meals[2].servings, this.convertArrayOfIngridientsToString(2), meals[2].instructions, errorBox, 2);
         })
     }
 

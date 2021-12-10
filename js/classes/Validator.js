@@ -188,11 +188,11 @@ export class Validator {
 
 
 
-    saveRandomRecipeHandler = async(title, prepTime, servings, ingredients, instruction, errorBox) => {
+    saveRandomRecipeHandler = async(title, prepTime, servings, ingredients, instruction, errorBox, numberOfRecipe) => {
         const res = await this.Api.saveRanndomRecipe(title, prepTime, servings, ingredients, instruction);
         const resJson = await res.json();
-        const saveIcon = document.getElementById('saveRecipe0');
-        const li = document.getElementsByTagName('li')[0];
+        const saveIcon = document.getElementById('saveRecipe' + numberOfRecipe);
+        const li = document.getElementById('randomRecpiesListElement' + numberOfRecipe);
         if (res.status === 200) {
             errorBox.innerText = resJson.message;
             errorBox.style.color = "#0B5F43";

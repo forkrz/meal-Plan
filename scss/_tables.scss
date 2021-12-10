@@ -46,3 +46,27 @@ td {
     padding: 1rem 0.5rem;
     min-width: 200px;
 }
+
+.tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+    width: 100%;
+    font-size: 0.7rem;
+    letter-spacing: 0;
+}
+
+.tab {
+    border-bottom: 2rem solid $gradient-green;
+    border-left: 1rem solid transparent;
+    border-right: 1rem solid transparent;
+    height: 0;
+    width: 5rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: $font;
+    color: $white;
+    text-align: center;
+}

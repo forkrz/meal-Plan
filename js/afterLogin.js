@@ -12,5 +12,5 @@ addMealPlanButton.addEventListener('click', () => {
 });
 
 generateRandomMealIcon.addEventListener('click', () => {
-    modal.getRandomRecipeModalHandler(addMealPlanModal);
+    modal.getRandomRecipeModalHandler(addMealPlanModal, addMealPlanModal);
 });

@@ -55,8 +55,9 @@ class Api
     }
     public function sendGeneratedMealPlan(string $timeFrame, string $targetCalories, string $diet, string $JWT)
     {
-        $login = $this->JWT->decodeJwt($JWT)->login;
+
         if ($this->JWT->decodeJwt($JWT) !== false) {
+            $login = $this->JWT->decodeJwt($JWT)->login;
             if ($this->db->addMealsTotal($login, $timeFrame, $targetCalories, $diet) !== false) {
                 http_response_code(200);
                 echo json_encode(
