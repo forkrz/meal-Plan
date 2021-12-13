@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once("Database.php");
 require_once("Verification.php");
 require_once("MealPlans.php");
+require_once("Pagination.php");
 require_once("JWT.php");
 class Api
 {
@@ -12,6 +13,7 @@ class Api
         $this->db = new Database($config);
         $this->ver = new Verification($config);
         $this->JWT = new JWTTokens($config);
+        $this->pag = new Pagination($config);
         $this->meals = new Meals();
     }
 
@@ -90,6 +92,26 @@ class Api
         } else {
             http_response_code(401);
             echo json_encode(array("message" => "Unable to save Meal.Please try again later."));
+        }
+    }
+
+    public function getPaginatedRecords(string $JWT, int $min, int $max)
+    {
+        $login = $this->JWT->decodeJwt($JWT)->login;
+        if ($this->JWT->decodeJwt($JWT) !== false) {
+            if ($this->pag->getMeals($login, $min, $max)) {
+                http_response_code(200);
+                echo json_encode(array(
+                    "message" => "Ok",
+                    "meals" => $this->pag->getMeals($login, $min, $max)
+                ));
+            } else {
+                http_response_code(401);
+                echo json_encode(array("message" => "Unable to load Meals.Please try again later.DB"));
+            }
+        } else {
+            http_response_code(401);
+            echo json_encode(array("message" => "Unable to load Meals.Please try again later.JWT"));
         }
     }
 }

@@ -1,13 +1,11 @@
 <?php
 
 declare(strict_types=1);
-require_once 'Pagination.php';
 require_once 'MealPlans.php';
 class Database
 {
     function __construct(array $config)
     {
-        $this->pagin = new Pagination();
         $this->meal = new Meals();
         try {
             $dsn = "mysql:host={$config['host']};dbname={$config['dbname']}";
@@ -97,9 +95,9 @@ class Database
         }
     }
 
-    public function getTotalQuantityOfMealsForUser(string $login)
+    public function getTotalQuantityOfPlansForUser(string $login): int
     {
-        $query = "SELECT * FROM meals INNER JOIN meal_plans On meals.PLAN_ID = meal_plans.PLAN_ID WHERE meal_plans.USER_LOGIN =:USER_LOGIN";
+        $query = "SELECT * FROM meal_plans WHERE USER_LOGIN =:USER_LOGIN";
         $statement = $this->con->prepare($query);
         $statement->bindParam(':USER_LOGIN', $login);
         $statement->execute();
@@ -107,10 +105,9 @@ class Database
         return $count;
     }
 
-    public function getPaginatedRecords(string $login, string $min, string $max)
+    public function getPaginatedRecords(string $login, int $min, int $max)
     {
-        $meals = $this->pagin->getMeals($min, $max, $this->getTotalQuantityOfMealsForUser($login));
-        $query = "SELECT * FROM meals INNER JOIN meal_plans On meals.PLAN_ID = meal_plans.PLAN_ID WHERE meal_plans.USER_LOGIN =:USER_LOGIN LIMIT {$meals['min']}, {$meals['max']}";
+        $query = "SELECT * FROM meal_plans WHERE USER_LOGIN =:USER_LOGIN LIMIT {$min}, {$max}";
         $statement = $this->con->prepare($query);
         $statement->bindParam(':USER_LOGIN', $login);
         $statement->execute();
@@ -128,7 +125,7 @@ class Database
     }
     public function getLastRecordsPaginated($login)
     {
-        $recordsTotal = $this->getTotalQuantityOfMealsForUser($login);
+        $recordsTotal = $this->getTotalQuantityOfPlansForUser($login);
         if ($recordsTotal < 10) {
             $minRecords = 0;
             $maxRecords = $recordsTotal;

@@ -9,7 +9,7 @@ export class Pagination {
             body: JSON.stringify({
                 min: 0,
                 max: 10,
-                login: this.Cookies.getCookie('jwt')
+                JWT: this.Cookies.getCookie('jwt')
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8'

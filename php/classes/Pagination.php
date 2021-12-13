@@ -1,21 +1,28 @@
 <?php
 
 declare(strict_types=1);
-require_once "Database.php";
+require_once("Database.php");
 
 class Pagination
 {
-    private function getMinMeals(string $min)
+    function __construct(array $config)
+    {
+        $this->db = new Database($config);
+    }
+
+    private function getMinMeals(int $min, int $totalRecords): int
     { {
             if ($min < 10) {
                 return 0;
+            } elseif ($min > $totalRecords) {
+                return $totalRecords - $totalRecords % 10;
             } else {
                 return $min;
             }
         }
     }
 
-    private function getMaxMeals(string $max, string $totalRecords)
+    private function getMaxMeals(int $max, int $totalRecords): int
     {
         if ($max > $totalRecords) {
             return $totalRecords;
@@ -24,14 +31,12 @@ class Pagination
         }
     }
 
-    public function getMeals(string $min, string $max, string $totalRecords)
+    public function getMeals(string $login, int $min, int $max,)
     {
-        $minMeals = $this->getMinMeals($min);
+        $totalRecords = $this->db->getTotalQuantityOfPlansForUser($login);
+        $minMeals = $this->getMinMeals($min, $totalRecords);
         $maxMeals = $this->getMaxMeals($max, $totalRecords);
-        $meals = array(
-            'min' => $minMeals,
-            'max' => $maxMeals
-        );
-        return $meals;
+        $mealsData = $this->db->getPaginatedRecords($login, $minMeals, $maxMeals);
+        return $mealsData;
     }
 }
