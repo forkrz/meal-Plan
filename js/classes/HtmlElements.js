@@ -7,5 +7,4 @@ export class HtmlElements {
         span.innerHTML = '<i class="material-icons getNewRandomRecpies">check</i>'
         li.replaceChild(span, saveIcon)
     }
-
 }

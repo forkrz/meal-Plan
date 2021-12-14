@@ -80,4 +80,19 @@ export class Api {
         }));
         return response;
     }
+
+    getPaginatedRecords = async(minScope, maxScope) => {
+        const response = await (fetch('http://mp.localhost/php/api/pagination.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                minScope: minScope,
+                maxScope: maxScope,
+                JWT: this.Cookies.getCookie('jwt')
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        }));
+        return response;
+    }
 }

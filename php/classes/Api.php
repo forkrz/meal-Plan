@@ -95,15 +95,15 @@ class Api
         }
     }
 
-    public function getPaginatedRecords(string $JWT, int $min, int $max)
+    public function getPaginatedRecords(string $JWT, int $minScope, int $maxScope)
     {
         $login = $this->JWT->decodeJwt($JWT)->login;
         if ($this->JWT->decodeJwt($JWT) !== false) {
-            if ($this->pag->getMeals($login, $min, $max)) {
+            if ($this->pag->getMeals($login, $minScope, $maxScope)) {
                 http_response_code(200);
                 echo json_encode(array(
                     "message" => "Ok",
-                    "meals" => $this->pag->getMeals($login, $min, $max)
+                    "meals" => $this->pag->getMeals($login, $minScope, $maxScope)
                 ));
             } else {
                 http_response_code(401);

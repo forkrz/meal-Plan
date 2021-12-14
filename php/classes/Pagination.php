@@ -31,11 +31,11 @@ class Pagination
         }
     }
 
-    public function getMeals(string $login, int $min, int $max,)
+    public function getMeals(string $login, int $minScope, int $maxScope,)
     {
         $totalRecords = $this->db->getTotalQuantityOfPlansForUser($login);
-        $minMeals = $this->getMinMeals($min, $totalRecords);
-        $maxMeals = $this->getMaxMeals($max, $totalRecords);
+        $minMeals = $this->getMinMeals($minScope, $totalRecords);
+        $maxMeals = $this->getMaxMeals($maxScope, $totalRecords);
         $mealsData = $this->db->getPaginatedRecords($login, $minMeals, $maxMeals);
         return $mealsData;
     }

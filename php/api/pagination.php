@@ -17,7 +17,7 @@ $db = new Database($config);
 $data = json_decode((file_get_contents("php://input")), true);
 $api = new Api($config);
 try {
-    $api->getPaginatedRecords($data['JWT'], $data['min'], $data['max']);
+    $api->getPaginatedRecords($data['JWT'], $data['minScope'], $data['maxScope']);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
