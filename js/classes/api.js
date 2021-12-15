@@ -81,12 +81,11 @@ export class Api {
         return response;
     }
 
-    getPaginatedRecords = async(minScope, maxScope) => {
+    getPaginatedRecords = async(minScope) => {
         const response = await (fetch('http://mp.localhost/php/api/pagination.php', {
             method: 'POST',
             body: JSON.stringify({
                 minScope: minScope,
-                maxScope: maxScope,
                 JWT: this.Cookies.getCookie('jwt')
             }),
             headers: {
@@ -95,4 +94,6 @@ export class Api {
         }));
         return response;
     }
+
+
 }

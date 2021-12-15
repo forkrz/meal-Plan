@@ -80,8 +80,9 @@ class Api
 
     public function saveRandomRecipe(string $JWT, string $name, int $prepTime, int $servings, string $ingridients, string $instruction)
     {
-        $login = $this->JWT->decodeJwt($JWT)->login;
+
         if ($this->JWT->decodeJwt($JWT) !== false) {
+            $login = $this->JWT->decodeJwt($JWT)->login;
             if ($this->db->saveRandomMeal($login, $name, $prepTime, $servings, $ingridients, $instruction) !== false) {
                 http_response_code(200);
                 echo json_encode(array("message" => "Meal saved"));
@@ -95,15 +96,17 @@ class Api
         }
     }
 
-    public function getPaginatedRecords(string $JWT, int $minScope, int $maxScope)
+    public function getPaginatedRecords(string $JWT, int $minScope)
     {
-        $login = $this->JWT->decodeJwt($JWT)->login;
+
         if ($this->JWT->decodeJwt($JWT) !== false) {
-            if ($this->pag->getMeals($login, $minScope, $maxScope)) {
+            $login = $this->JWT->decodeJwt($JWT)->login;
+            if ($this->pag->getMeals($login, $minScope)) {
                 http_response_code(200);
                 echo json_encode(array(
                     "message" => "Ok",
-                    "meals" => $this->pag->getMeals($login, $minScope, $maxScope)
+                    "meals" => $this->pag->getMeals($login, $minScope),
+                    "TotalPlansForUser" => $this->db->getTotalQuantityOfPlansForUser($login)
                 ));
             } else {
                 http_response_code(401);

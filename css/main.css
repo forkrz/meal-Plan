@@ -154,6 +154,10 @@ li {
   margin-left: 3rem;
 }
 
+.nav_button {
+  background-color: #0b5f43;
+}
+
 .logoutInfo {
   background-color: #0b5f43;
   border-radius: 2rem;
@@ -463,6 +467,7 @@ tr {
   margin: 0 1rem;
   font-size: 2rem;
   color: #F3EFF5;
+  background-color: transparent;
 }
 
 .userInterface__tableContent {
@@ -482,7 +487,6 @@ tr {
 }
 
 td {
-  font-size: 1.2rem;
   padding: 1rem 0.5rem;
   min-width: 200px;
 }
@@ -519,5 +523,24 @@ td {
   font-family: "Roboto", sans-serif;
   color: #F3EFF5;
   text-align: center;
+}
+
+tr:nth-of-type(even) td:last-child button {
+  background-color: #cec9c9;
+}
+
+.showMealsButton {
+  padding: 0.2rem;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 0.2rem;
+}
+
+.nav__buttons {
+  background-color: transparent;
+}
+
+.blocked {
+  cursor: not-allowed;
 }
 /*# sourceMappingURL=main.css.map */

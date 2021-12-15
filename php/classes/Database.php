@@ -105,9 +105,9 @@ class Database
         return $count;
     }
 
-    public function getPaginatedRecords(string $login, int $min, int $max)
+    public function getPaginatedRecords(string $login, int $min)
     {
-        $query = "SELECT * FROM meal_plans WHERE USER_LOGIN =:USER_LOGIN LIMIT {$min}, {$max}";
+        $query = "SELECT * FROM meal_plans WHERE USER_LOGIN =:USER_LOGIN LIMIT {$min}, 10";
         $statement = $this->con->prepare($query);
         $statement->bindParam(':USER_LOGIN', $login);
         $statement->execute();

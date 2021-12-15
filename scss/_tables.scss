@@ -32,6 +32,7 @@ tr {
     margin: 0 1rem;
     font-size: 2rem;
     color: $white;
+    background-color: transparent;
 }
 
 .userInterface__tableContent {
@@ -42,7 +43,6 @@ tr {
 }
 
 td {
-    font-size: 1.2rem;
     padding: 1rem 0.5rem;
     min-width: 200px;
 }
@@ -69,4 +69,19 @@ td {
     font-family: $font;
     color: $white;
     text-align: center;
+}
+
+tr:nth-of-type(even) td:last-child button {
+    background-color: rgb(206, 201, 201);
+}
+
+.showMealsButton {
+    padding: 0.2rem;
+    cursor: pointer;
+    font-family: $font;
+    letter-spacing: 0.2rem;
+}
+
+.nav__buttons {
+    background-color: transparent;
 }
