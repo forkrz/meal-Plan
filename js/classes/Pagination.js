@@ -28,12 +28,31 @@ export class Pagination {
         }
     }
 
-    LastNotesAndNextButtonsController(maxScope, maxRecords) {
+    lastNotesAndNextButtonsController(maxScope, maxRecords) {
+        const maxScopeFinal = maxScope + maxRecords % 10;
         const lastRecordsButton = document.getElementById('lastRecordsButton');
         const lastRecordsIcon = document.getElementById('lastRecordsIcon');
         const nextRecordsButton = document.getElementById('nextRecordsButton');
-        const nextRecordsIcon = document.getElementById('nextRecordsIcon');
-        if (maxScope >= maxRecords)
+        const nextRecordsIcon = document.getElementById('nexRecordsIcon');
+        if (maxScopeFinal >= maxRecords) {
+            lastRecordsButton.disabled = true;
+            nextRecordsButton.disabled = true;
+            nextRecordsIcon.disabled = true;
+            lastRecordsIcon.disabled = true;
+            lastRecordsButton.classList.add('blocked');
+            nextRecordsButton.classList.add('blocked');
+            nextRecordsIcon.classList.add('blocked');
+            lastRecordsIcon.classList.add('blocked');
+        } else {
+            lastRecordsButton.disabled = false;
+            nextRecordsButton.disabled = false;
+            nextRecordsIcon.disabled = false;
+            lastRecordsIcon.disabled = false;
+            lastRecordsButton.classList.remove('blocked');
+            nextRecordsButton.classList.remove('blocked');
+            nextRecordsIcon.classList.remove('blocked');
+            lastRecordsIcon.classList.remove('blocked');
+        }
     }
 
 }

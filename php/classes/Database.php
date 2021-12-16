@@ -51,18 +51,36 @@ class Database
         return $result["MAX(PLAN_ID)"];
     }
 
+    private function getSpeicfiedDataForRecipes($mealId)
+    {
+        $data = $this->meal->getMoreInforForRecipeFromMealsPlan($mealId);
+        return $data;
+    }
 
     public function addMeals(array $array, string $login)
     {
         foreach ($array['meals'] as $meal) {
             $mealPlanId = $this->getLatestMealPLanID($login);
-            $query = "INSERT INTO meals(PLAN_ID,TITLE,PREPTIME,SERVINGS) VALUES (:PLAN_ID,:TITLE,:PREPTIME,:SERVINGS)";
+            $query = "INSERT INTO meals(PLAN_ID,TITLE,PREPTIME,SERVINGS,INGRIDIENTS,INSTRUCTION) VALUES (:PLAN_ID,:TITLE,:PREPTIME,:SERVINGS,:INGRIDIENTS,:INSTRUCTION)";
             $statement = $this->con->prepare($query);
             $statement->bindParam(':PLAN_ID', $mealPlanId);
             $statement->bindParam(':TITLE', $meal['title']);
             $statement->bindParam(':PREPTIME', $meal['readyInMinutes']);
             $statement->bindParam(':SERVINGS', $meal['servings']);
+            $statement->bindParam(':INGRIDIENTS', $meal['ingredients']);
+            $statement->bindParam(':INSTRUCTION', $meal['instruction']);
             $statement->execute();
+        }
+    }
+
+    public function addMealsTotal(string $login, string $timeFrame, string $targetCalories, string $diet)
+    {
+        $array = $this->meal->generateMealPlan($timeFrame, $targetCalories, $diet);
+        if ($this->addMealPlan($array, $login)) {
+            $this->addMeals($array, $login);
+            return $array;
+        } else {
+            return false;
         }
     }
 
@@ -84,16 +102,7 @@ class Database
     }
 
 
-    public function addMealsTotal(string $login, string $timeFrame, string $targetCalories, string $diet)
-    {
-        $array = $this->meal->generateMealPlan($timeFrame, $targetCalories, $diet);
-        if ($this->addMealPlan($array, $login)) {
-            $this->addMeals($array, $login);
-            return $array;
-        } else {
-            return false;
-        }
-    }
+
 
     public function getTotalQuantityOfPlansForUser(string $login): int
     {

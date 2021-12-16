@@ -92,7 +92,7 @@ class Api
             }
         } else {
             http_response_code(401);
-            echo json_encode(array("message" => "Unable to save Meal.Please try again later."));
+            echo json_encode(array("message" => "Unable to save Meal.Please try again later"));
         }
     }
 
