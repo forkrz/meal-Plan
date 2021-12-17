@@ -57,9 +57,33 @@ class Database
         return $data;
     }
 
+    private function convertArrayOfIngridientsToString($extData)
+    {
+        $arr = [];
+        foreach ($extData['extendedIngredients'] as $ingridient) {
+            array_push($arr, $ingridient['name']);
+        }
+        $finalString = implode(',', $arr);
+
+        return $finalString;
+    }
+
+    private function amendTextOfRecipe($extData)
+    {
+        $string = $extData['instructions'];
+        $string = strip_tags($string);
+        $string = trim(preg_replace('/\s+/', ' ', $string));
+        return $string;
+    }
+
+
     public function addMeals(array $array, string $login)
     {
+
         foreach ($array['meals'] as $meal) {
+            $extData = $this->getSpeicfiedDataForRecipes($meal['id']);
+            $amendedInstruction = $this->amendTextOfRecipe($extData);
+            $ingridients = $this->convertArrayOfIngridientsToString($extData);
             $mealPlanId = $this->getLatestMealPLanID($login);
             $query = "INSERT INTO meals(PLAN_ID,TITLE,PREPTIME,SERVINGS,INGRIDIENTS,INSTRUCTION) VALUES (:PLAN_ID,:TITLE,:PREPTIME,:SERVINGS,:INGRIDIENTS,:INSTRUCTION)";
             $statement = $this->con->prepare($query);
@@ -67,8 +91,8 @@ class Database
             $statement->bindParam(':TITLE', $meal['title']);
             $statement->bindParam(':PREPTIME', $meal['readyInMinutes']);
             $statement->bindParam(':SERVINGS', $meal['servings']);
-            $statement->bindParam(':INGRIDIENTS', $meal['ingredients']);
-            $statement->bindParam(':INSTRUCTION', $meal['instruction']);
+            $statement->bindParam(':INGRIDIENTS', $ingridients);
+            $statement->bindParam(':INSTRUCTION', $amendedInstruction);
             $statement->execute();
         }
     }
@@ -145,6 +169,16 @@ class Database
         $query = "SELECT * FROM meals INNER JOIN meal_plans On meals.PLAN_ID = meal_plans.PLAN_ID WHERE meal_plans.USER_LOGIN =:USER_LOGIN LIMIT {$minRecords},{$maxRecords}";
         $statement = $this->con->prepare($query);
         $statement->bindParam(':USER_LOGIN', $login);
+        $statement->execute();
+        $result = $statement->fetchall(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getAllRecipesForMealPlan(string $planId)
+    {
+        $query = "SELECT * FROM meals WHERE PLAN_ID =:PLAN_ID";
+        $statement = $this->con->prepare($query);
+        $statement->bindParam(':PLAN_ID', $planId);
         $statement->execute();
         $result = $statement->fetchall(PDO::FETCH_ASSOC);
         return $result;

@@ -34,7 +34,7 @@ export class Pagination {
         const lastRecordsIcon = document.getElementById('lastRecordsIcon');
         const nextRecordsButton = document.getElementById('nextRecordsButton');
         const nextRecordsIcon = document.getElementById('nexRecordsIcon');
-        if (maxScopeFinal >= maxRecords) {
+        if (maxScopeFinal > maxRecords) {
             lastRecordsButton.disabled = true;
             nextRecordsButton.disabled = true;
             nextRecordsIcon.disabled = true;

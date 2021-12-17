@@ -110,11 +110,32 @@ class Api
                 ));
             } else {
                 http_response_code(401);
-                echo json_encode(array("message" => "Unable to load Meals.Please try again later.DB"));
+                echo json_encode(array("message" => "Unable to load Meals.Please try again later."));
             }
         } else {
             http_response_code(401);
-            echo json_encode(array("message" => "Unable to load Meals.Please try again later.JWT"));
+            echo json_encode(array("message" => "Unable to load Meals.Please try again later."));
+        }
+    }
+
+    public function getMealsDataForMealPlan(string $JWT, string $planId)
+    {
+
+        if ($this->JWT->decodeJwt($JWT) !== false) {
+            $login = $this->JWT->decodeJwt($JWT)->login;
+            if ($this->db->getAllRecipesForMealPlan($login, $planId)) {
+                http_response_code(200);
+                echo json_encode(array(
+                    "message" => "Ok",
+                    "meals" => $this->db->getAllRecipesForMealPlan($login, $planId),
+                ));
+            } else {
+                http_response_code(401);
+                echo json_encode(array("message" => "Unable to load Meals.Please try again later."));
+            }
+        } else {
+            http_response_code(401);
+            echo json_encode(array("message" => "Unable to load Meals.Please try again later."));
         }
     }
 }
