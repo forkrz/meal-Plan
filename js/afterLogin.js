@@ -42,7 +42,7 @@ getLastRecords.addEventListener('click', async() => {
     const noteCount = await table.TotalNoOfRecordsForUser(0, 10);
     const minCount = noteCount - noteCount % 10;
     minNotes = minCount;
-    maxNotes = minCount;
+    maxNotes = minCount + 10;
     table.insertMealsPlansDataIntoTable(minNotes, maxNotes);
 });
 

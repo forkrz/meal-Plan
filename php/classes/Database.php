@@ -26,7 +26,7 @@ class Database
         return $result;
     }
 
-    public function addMealPlan($array, string $login)
+    public function addOneDayMealPlan(array $array, string $login)
     {
         $query = "INSERT INTO meal_plans (CALORIES,PROTEINS,FATS,CARBOHYDRATES,USER_LOGIN) VALUES (:CALORIES, :PROTEINS, :FATS, :CARBOHYDRATES, :USER_LOGIN)";
         $statement = $this->con->prepare($query);
@@ -36,11 +36,42 @@ class Database
         $statement->bindParam(':CARBOHYDRATES', $array['nutrients']['carbohydrates']);
         $statement->bindParam(':USER_LOGIN', $login);
         if ($statement->execute()) {
+            $this->addMeals($array, $login);
             return true;
         } else {
             return false;
         }
     }
+
+    function console_log($message)
+    {
+        $STDERR = fopen("php://stderr", "w");
+        fwrite($STDERR, "\n" . $message . "\n\n");
+        fclose($STDERR);
+    }
+
+    public function addMealPlansforWholeWheek(array $array, string $login)
+    {
+        echo ('poza for eachem');
+        echo (json_encode($array, JSON_PRETTY_PRINT));
+        foreach ($array['week'] as $day) {
+            echo ('for each');
+            echo (json_encode($day, JSON_PRETTY_PRINT));
+            $query = "INSERT INTO meal_plans (CALORIES,PROTEINS,FATS,CARBOHYDRATES,USER_LOGIN) VALUES (:CALORIES, :PROTEINS, :FATS, :CARBOHYDRATES, :USER_LOGIN)";
+            $statement = $this->con->prepare($query);
+            $statement->bindParam(':CALORIES', $day['nutrients']['calories']);
+            $statement->bindParam(':PROTEINS', $day['nutrients']['protein']);
+            $statement->bindParam(':FATS', $day['nutrients']['fat']);
+            $statement->bindParam(':CARBOHYDRATES', $day['nutrients']['carbohydrates']);
+            $statement->bindParam(':USER_LOGIN', $login);
+            if ($statement->execute()) {
+                $this->addMeals($day, $login);
+            } else {
+                return false;
+            }
+        }
+    }
+
     private function getLatestMealPLanID(string $login)
     {
         $query = "SELECT MAX(PLAN_ID) FROM meal_plans WHERE USER_LOGIN =:USER_LOGIN";
@@ -97,14 +128,23 @@ class Database
         }
     }
 
-    public function addMealsTotal(string $login, string $timeFrame, string $targetCalories, string $diet)
+    public function addMealPlansController(string $login, string $timeFrame, string $targetCalories, string $diet)
     {
         $array = $this->meal->generateMealPlan($timeFrame, $targetCalories, $diet);
-        if ($this->addMealPlan($array, $login)) {
-            $this->addMeals($array, $login);
-            return $array;
+        if ($timeFrame = "week") {
+            echo ('week');
+            if ($this->addMealPlansforWholeWheek($array, $login)) {
+                return $this->addMealPlansforWholeWheek($array, $login);
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            if ($this->addOneDayMealPlan($array, $login)) {
+                echo ('day');
+                return $array;
+            } else {
+                return false;
+            }
         }
     }
 

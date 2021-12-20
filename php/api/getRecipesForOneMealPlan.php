@@ -15,7 +15,6 @@ $mealPlans = new Meals();
 $database = new Database($config);
 $api = new Api($config);
 $data = json_decode((file_get_contents("php://input")), true);
-
 try {
     $api->getMealsDataForMealPlan($data['JWT'], $data['planId']);
 } catch (Exception $e) {

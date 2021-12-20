@@ -29,7 +29,7 @@ export class Table {
 
     createTdElements = (records, n) => {
         const tr = document.getElementById('tr' + n);
-        tr.insertAdjacentHTML('beforeend', '<td>' + records[n].PLAN_ID + '</td>');
+        tr.insertAdjacentHTML('beforeend', `<td id="planId${n}">` + records[n].PLAN_ID + '</td>');
         tr.insertAdjacentHTML('beforeend', '<td>' + records[n].CALORIES + '</td>');
         tr.insertAdjacentHTML('beforeend', '<td>' + records[n].PROTEINS + '</td>');
         tr.insertAdjacentHTML('beforeend', '<td>' + records[n].FATS + '</td>');
@@ -40,9 +40,11 @@ export class Table {
     }
 
     showMealsAddEvenListeners = (n) => {
+        const modal = document.getElementById('modal');
+        const planId = document.getElementById(`planId${n}`)
         const button = document.querySelector(`[data-index-number="${n}"]`);
         button.addEventListener('click', () => {
-            console.log(n);
+            this.Modals.showMealsFromMealPlan(planId.innerText);
         });
     }
 

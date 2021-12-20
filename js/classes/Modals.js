@@ -176,7 +176,6 @@ export class Modals {
     };
 
     showPrepInstructionForOneMeal = (numberOfRecipe) => {
-        const meals = test.recipes;
         modalContent.insertAdjacentHTML('beforeend', '<span class="listOfIngridents__header">Instruction:</span>' + '<span class="recipeConatiner">' + this.getPrepInstructionForOneRecipe(numberOfRecipe) + '</span>')
     }
 
@@ -212,12 +211,12 @@ export class Modals {
         this.showPrepInstructionForOneMeal(numberOfRecipe);
         const closeButton = document.getElementById('closeButton');
         closeButton.addEventListener('click', () => {
-            modal.innerHTML = "";
+            modalContent.innerHTML = "";
             modal.classList.add('hide');
         })
     }
 
-    addList = () => {
+    addList = (modalContent) => {
         modalContent.insertAdjacentHTML('beforeend',
             `<button class="material-icons modal__header__button" id="closeButton">close</button>
         <span class="randomRecpiesSpan">Recipes:</span>
@@ -227,12 +226,12 @@ export class Modals {
     showTitleOfRandomRecipeAndLinks = (element, n) => {
         const list = document.getElementById('randomRecpiesList');
 
-        if (element.title.length >= 10) {
+        if (element.TITLE.length >= 10) {
             list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' + '<span class="randomRecpiesList__element__span">' +
-                element.title.substring(0, 12) + '...' + "</span>" +
+                element.TITLE.substring(0, 12) + '...' + "</span>" +
                 '<button class="randomRecpiesList__element__button" id="showRecipe' + n + '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' + '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
         } else {
-            list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element">' + element.title +
+            list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element">' + element.TITLE +
                 '<button class="randomRecpiesList__element__button" id="showRecipe' + n + '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' + '</li>');
         }
     }
@@ -251,7 +250,7 @@ export class Modals {
         modalContent.innerHTML = "";
         modalContent.style.minWidth = 35 + "%";
         modalContent.style.maxWidth = 0;
-        this.addList();
+        this.addList(modalContent);
         meals.forEach((el, n) => this.showTitleOfRandomRecipeAndLinks(el, n));
         modalContent.insertAdjacentHTML('beforeend', `<span class="material-icons getNewRandomRecpies" id ="autorenew">autorenew</span>`)
 
@@ -264,6 +263,7 @@ export class Modals {
         const errorBox = document.getElementById('FinalError');
         const closeButton = document.getElementById('closeButton');
         const modal = document.getElementById('modal');
+
 
         closeButton.addEventListener('click', () => {
             modal.innerHTML = "";
@@ -295,5 +295,32 @@ export class Modals {
             this.Validator.saveRandomRecipeHandler(meals[2].title, meals[2].readyInMinutes, meals[2].servings, this.convertArrayOfIngridientsToString(2), meals[2].instructions, errorBox, 2);
         })
     }
+
+    mealsForOneMealPlan = async(planId) => {
+        const records = await this.api.getMealsForOneMealPlan(planId);
+        const recordsJson = await records.json();
+        return recordsJson['meals'];
+    }
+
+    showMealsFromMealPlan = async(planId) => {
+        const meals = await this.mealsForOneMealPlan(planId);
+        const modalContent = document.getElementById('modalContent');
+        modalContent.innerHTML = "";
+        modalContent.style.minWidth = 35 + "%";
+        modalContent.style.maxWidth = 0;
+        this.addList(modalContent);
+
+        meals.forEach((el, n) => this.showTitleOfRandomRecipeAndLinks(el, n));
+
+        const closeButton = document.getElementById('closeButton');
+        const modal = document.getElementById('modal');
+        this.displayModal(modal);
+
+        closeButton.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            modal.classList.add('hide');
+        })
+    }
+
 
 }

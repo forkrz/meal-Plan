@@ -95,5 +95,19 @@ export class Api {
         return response;
     }
 
+    getMealsForOneMealPlan = async(planId) => {
+        const response = await (fetch('http://mp.localhost/php/api/getRecipesForOneMealPlan.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                planId: planId,
+                JWT: this.Cookies.getCookie('jwt')
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        }));
+        return response;
+    }
+
 
 }

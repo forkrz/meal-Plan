@@ -14,7 +14,6 @@ export class Pagination {
             previousRecordButton.classList.add('blocked');
             previousRecordIcon.classList.add('blocked');
             firstRecordsIcon.classList.add('blocked');
-            return 'block';
         } else {
             firstRecordsButton.disabled = false;
             previousRecordButton.disabled = false;
@@ -24,7 +23,6 @@ export class Pagination {
             previousRecordButton.classList.remove('blocked');
             previousRecordIcon.classList.remove('blocked');
             firstRecordsIcon.classList.remove('blocked');
-            return 'nieblock';
         }
     }
 

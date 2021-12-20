@@ -16,8 +16,10 @@ $database = new Database($config);
 $api = new Api($config);
 $data = json_decode((file_get_contents("php://input")), true);
 
-try {
-    ($api->sendGeneratedMealPlan($data['TIMEFRAME'], $data['CALORIES'], $data['DIET'], $data["JWT"]));
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
+$api->sendGeneratedMealPlan("week", '2500', 'vegeterian', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDAwMzI0NzEsImV4cCI6MTY0MDAzOTY3MSwiaXNzIjoibXAubG9jYWxob3N0IiwibG9naW4iOiJ0ZXN0MTEifQ.tskUNXJMiOorP7liGmUV6u2CaaJpSBjb6GqObIujKuM');
+
+// try {
+//     ($api->sendGeneratedMealPlan($data['TIMEFRAME'], $data['CALORIES'], $data['DIET'], $data["JWT"]));
+// } catch (Exception $e) {
+//     echo $e->getMessage();
+// }

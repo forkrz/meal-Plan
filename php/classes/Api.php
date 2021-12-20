@@ -60,12 +60,13 @@ class Api
 
         if ($this->JWT->decodeJwt($JWT) !== false) {
             $login = $this->JWT->decodeJwt($JWT)->login;
-            if ($this->db->addMealsTotal($login, $timeFrame, $targetCalories, $diet) !== false) {
+            if ($this->db->addMealPlansController($login, $timeFrame, $targetCalories, $diet) !== false) {
                 http_response_code(200);
                 echo json_encode(
                     array(
+                        "output" => "res",
                         "message" => "Meal Plan generated",
-                        "mealsData" => $this->db->addMealsTotal($login, $timeFrame, $targetCalories, $diet)
+                        "mealsData" => $this->db->addMealPlansController($login, $timeFrame, $targetCalories, $diet)
                     )
                 );
             } else {
@@ -123,11 +124,11 @@ class Api
 
         if ($this->JWT->decodeJwt($JWT) !== false) {
             $login = $this->JWT->decodeJwt($JWT)->login;
-            if ($this->db->getAllRecipesForMealPlan($login, $planId)) {
+            if ($this->db->getAllRecipesForMealPlan($planId)) {
                 http_response_code(200);
                 echo json_encode(array(
                     "message" => "Ok",
-                    "meals" => $this->db->getAllRecipesForMealPlan($login, $planId),
+                    "meals" => $this->db->getAllRecipesForMealPlan($planId),
                 ));
             } else {
                 http_response_code(401);
