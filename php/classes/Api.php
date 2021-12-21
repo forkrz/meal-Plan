@@ -64,9 +64,7 @@ class Api
                 http_response_code(200);
                 echo json_encode(
                     array(
-                        "output" => "res",
-                        "message" => "Meal Plan generated",
-                        "mealsData" => $this->db->addMealPlansController($login, $timeFrame, $targetCalories, $diet)
+                        "message" => "Meal Plan generated"
                     )
                 );
             } else {
@@ -108,6 +106,28 @@ class Api
                     "message" => "Ok",
                     "meals" => $this->pag->getMeals($login, $minScope),
                     "TotalPlansForUser" => $this->db->getTotalQuantityOfPlansForUser($login)
+                ));
+            } else {
+                http_response_code(401);
+                echo json_encode(array("message" => "Unable to load Meals.Please try again later."));
+            }
+        } else {
+            http_response_code(401);
+            echo json_encode(array("message" => "Unable to load Meals.Please try again later."));
+        }
+    }
+
+    public function getPaginatedRecordsForRandomRecipes(string $JWT, int $minScope)
+    {
+
+        if ($this->JWT->decodeJwt($JWT) !== false) {
+            $login = $this->JWT->decodeJwt($JWT)->login;
+            if ($this->pag->getRandomMeals($login, $minScope)) {
+                http_response_code(200);
+                echo json_encode(array(
+                    "message" => "Ok",
+                    "meals" => $this->pag->getRandomMeals($login, $minScope),
+                    "TotalPlansForUser" => $this->db->getTotalQuantityOfRandomMealsForUser($login)
                 ));
             } else {
                 http_response_code(401);

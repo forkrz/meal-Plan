@@ -162,53 +162,40 @@ export class Modals {
         });
     }
 
-    getPrepInstructionForOneRecipe = (numberOfRecipe) => {
-        const meals = test.recipes;
-        const instruction = meals[numberOfRecipe].instructions.replace(/<\/?[^>]+>/gi, '')
+    getPrepInstructionForOneRecipe = (numberOfRecipe, meals) => {
+        const instruction = meals[numberOfRecipe]['INSTRUCTION'];
         return instruction;
     }
 
-    getSpecifiedIngredientsDataForOneRecipe = (numberOfRecipe, atribute) => {
-        const meals = test.recipes;
-        const extendedIngredients = meals[numberOfRecipe].extendedIngredients;
-        const result = extendedIngredients.map(ingredient => ingredient[atribute]);
-        return result;
+    getSpecifiedIngredientsDataForOneRecipe = (numberOfRecipe, atribute, meals) => {
+        const extendedIngredients = meals[numberOfRecipe]['INGRIDIENTS'];
+        return extendedIngredients;
     };
 
-    showPrepInstructionForOneMeal = (numberOfRecipe) => {
-        modalContent.insertAdjacentHTML('beforeend', '<span class="listOfIngridents__header">Instruction:</span>' + '<span class="recipeConatiner">' + this.getPrepInstructionForOneRecipe(numberOfRecipe) + '</span>')
+    showPrepInstructionForOneMeal = (numberOfRecipe, meals) => {
+        modalContent.insertAdjacentHTML('beforeend', '<span class="listOfIngridents__header">Instruction:</span>' + '<span class="recipeConatiner">' + this.getPrepInstructionForOneRecipe(numberOfRecipe, meals) + '</span>')
     }
 
-    showPrepTimeAndQtyOfServings = (numberOfRecipe) => {
-        const meals = test.recipes;
-        modalContent.insertAdjacentHTML('beforeend', '<div class="PrepTimeServings"><span class="PrepTimeServings__span">Time to prepare: ' + meals[numberOfRecipe].readyInMinutes + 'min' + '</span><span class="PrepTimeServings__span">Servings:' + meals[numberOfRecipe].servings + '</span></div>')
+    showPrepTimeAndQtyOfServings = (numberOfRecipe, meals) => {
+        console.log(meals);
+        modalContent.insertAdjacentHTML('beforeend', '<div class="PrepTimeServings"><span class="PrepTimeServings__span">Time to prepare: ' + meals[numberOfRecipe]['PREPTIME'] + 'min' + '</span><span class="PrepTimeServings__span">Servings:' + meals[numberOfRecipe]['SERVINGS'] + '</span></div>')
     }
 
 
 
-    showReicpeDetailInfo = (atribute, numberOfRecipe) => {
-        const meals = test.recipes;
+    showReicpeDetailInfo = (atribute, numberOfRecipe, meals) => {
         const modalContent = document.getElementById('modalContent');
         const modal = document.getElementById('modal');
         let i = 0;
         modalContent.style.minWidth = 10;
         modalContent.insertAdjacentHTML('beforeend', '<button class="material-icons modal__header__button" id="closeButton">close</button>' + '<ul class="ingirdients" id="listOfIngridents"><span class="listOfIngridents__header">' + meals[numberOfRecipe].title + '</span><span class="listOfIngridents__header">Ingridients:</span></ul>');
         const list = document.getElementById('listOfIngridents');
-        const ingirdientsData = this.getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute);
-        ingirdientsData.forEach(ingredient => {
-            const listelement = list.appendChild(document.createElement('li'));
-            if (ingirdientsData.length - 1 === i) {
-                listelement.insertAdjacentHTML('beforeend', ingirdientsData[i]);
-                listelement.className = "listOfIngridents__li";
-                i++;
-            } else {
-                listelement.insertAdjacentHTML('beforeend', ingirdientsData[i] + ',');
-                listelement.className = "listOfIngridents__li";
-                i++;
-            }
-        });
-        this.showPrepTimeAndQtyOfServings(numberOfRecipe);
-        this.showPrepInstructionForOneMeal(numberOfRecipe);
+        const ingirdientsData = this.getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute, meals);
+        const listelement = list.appendChild(document.createElement('li'));
+        listelement.insertAdjacentHTML('beforeend', ingirdientsData);
+
+        this.showPrepTimeAndQtyOfServings(numberOfRecipe, meals);
+        this.showPrepInstructionForOneMeal(numberOfRecipe, meals);
         const closeButton = document.getElementById('closeButton');
         closeButton.addEventListener('click', () => {
             modalContent.innerHTML = "";
@@ -226,7 +213,7 @@ export class Modals {
     showTitleOfRandomRecipeAndLinks = (element, n) => {
         const list = document.getElementById('randomRecpiesList');
 
-        if (element.TITLE.length >= 10) {
+        if (element.TITLE.length >= 12) {
             list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' + '<span class="randomRecpiesList__element__span">' +
                 element.TITLE.substring(0, 12) + '...' + "</span>" +
                 '<button class="randomRecpiesList__element__button" id="showRecipe' + n + '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' + '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
@@ -236,8 +223,20 @@ export class Modals {
         }
     }
 
+    showTitleOfRecipeAndLinksForMealPlan = (element, n) => {
+        const list = document.getElementById('randomRecpiesList');
+        if (element.TITLE.length >= 15) {
+            list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' + '<span class="randomRecpiesList__element__span RecipeFromMealPlan">' +
+                element.TITLE.substring(0, 15) + '...' + "</span>" +
+                '<button class="randomRecpiesList__element__button RecipeFromMealPlan" id="showRecipeMealPlan' + n + '" >Show recipe</button>' + '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
+        } else {
+            list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' + '<span class="randomRecpiesList__element__span RecipeFromMealPlan">' +
+                element.TITLE + "</span>" +
+                '<button class="randomRecpiesList__element__button RecipeFromMealPlan" id="showRecipeMealPlan' + n + '" >Show recipe</button>' + '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
+        }
+    }
+
     convertArrayOfIngridientsToString(numberOfRecipe) {
-        const meals = test.recipes;
         let ingr = [];
         meals[numberOfRecipe].extendedIngredients.forEach((ingirdient) => {
             ingr.push(ingirdient.originalString);
@@ -303,23 +302,41 @@ export class Modals {
     }
 
     showMealsFromMealPlan = async(planId) => {
-        const meals = await this.mealsForOneMealPlan(planId);
+        const apiRes = await this.mealsForOneMealPlan(planId);
         const modalContent = document.getElementById('modalContent');
         modalContent.innerHTML = "";
         modalContent.style.minWidth = 35 + "%";
         modalContent.style.maxWidth = 0;
         this.addList(modalContent);
 
-        meals.forEach((el, n) => this.showTitleOfRandomRecipeAndLinks(el, n));
+        apiRes.forEach((el, n) => this.showTitleOfRecipeAndLinksForMealPlan(el, n));
 
         const closeButton = document.getElementById('closeButton');
         const modal = document.getElementById('modal');
         this.displayModal(modal);
 
+        const showRecipe0 = document.getElementById('showRecipeMealPlan0');
+        const showRecipe1 = document.getElementById('showRecipeMealPlan1');
+        const showRecipe2 = document.getElementById('showRecipeMealPlan2');
+        const errorBox = document.getElementById('FinalError');
+
         closeButton.addEventListener('click', () => {
             modalContent.innerHTML = "";
             modal.classList.add('hide');
         })
+
+        showRecipe0.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showReicpeDetailInfo('originalString', 0, apiRes);
+        });
+        showRecipe1.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showReicpeDetailInfo('originalString', 1, apiRes);
+        });
+        showRecipe2.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showReicpeDetailInfo('originalString', 2, apiRes);
+        });
     }
 
 

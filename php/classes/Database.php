@@ -52,11 +52,7 @@ class Database
 
     public function addMealPlansforWholeWheek(array $array, string $login)
     {
-        echo ('poza for eachem');
-        echo (json_encode($array, JSON_PRETTY_PRINT));
         foreach ($array['week'] as $day) {
-            echo ('for each');
-            echo (json_encode($day, JSON_PRETTY_PRINT));
             $query = "INSERT INTO meal_plans (CALORIES,PROTEINS,FATS,CARBOHYDRATES,USER_LOGIN) VALUES (:CALORIES, :PROTEINS, :FATS, :CARBOHYDRATES, :USER_LOGIN)";
             $statement = $this->con->prepare($query);
             $statement->bindParam(':CALORIES', $day['nutrients']['calories']);
@@ -132,16 +128,14 @@ class Database
     {
         $array = $this->meal->generateMealPlan($timeFrame, $targetCalories, $diet);
         if ($timeFrame = "week") {
-            echo ('week');
             if ($this->addMealPlansforWholeWheek($array, $login)) {
-                return $this->addMealPlansforWholeWheek($array, $login);
+                return true;
             } else {
                 return false;
             }
         } else {
             if ($this->addOneDayMealPlan($array, $login)) {
-                echo ('day');
-                return $array;
+                return true;
             } else {
                 return false;
             }
@@ -171,6 +165,16 @@ class Database
     public function getTotalQuantityOfPlansForUser(string $login): int
     {
         $query = "SELECT * FROM meal_plans WHERE USER_LOGIN =:USER_LOGIN";
+        $statement = $this->con->prepare($query);
+        $statement->bindParam(':USER_LOGIN', $login);
+        $statement->execute();
+        $count = $statement->rowCount();
+        return $count;
+    }
+
+    public function getTotalQuantityOfRandomMealsForUser(string $login): int
+    {
+        $query = "SELECT * FROM random_meals WHERE USER_LOGIN =:USER_LOGIN";
         $statement = $this->con->prepare($query);
         $statement->bindParam(':USER_LOGIN', $login);
         $statement->execute();
@@ -219,6 +223,16 @@ class Database
         $query = "SELECT * FROM meals WHERE PLAN_ID =:PLAN_ID";
         $statement = $this->con->prepare($query);
         $statement->bindParam(':PLAN_ID', $planId);
+        $statement->execute();
+        $result = $statement->fetchall(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getRandomMealsAsPaginatedRecords(string $login, int $min)
+    {
+        $query = "SELECT * FROM random_meals WHERE USER_LOGIN =:USER_LOGIN LIMIT {$min}, 10";
+        $statement = $this->con->prepare($query);
+        $statement->bindParam(':USER_LOGIN', $login);
         $statement->execute();
         $result = $statement->fetchall(PDO::FETCH_ASSOC);
         return $result;

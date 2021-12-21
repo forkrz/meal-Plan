@@ -29,4 +29,12 @@ class Pagination
         $mealsData = $this->db->getPaginatedRecords($login, $minMeals);
         return $mealsData;
     }
+
+    public function getRandomMeals(string $login, int $minScope)
+    {
+        $totalRecords = $this->db->getTotalQuantityOfRandomMealsForUser($login);
+        $minMeals = $this->getMinMeals($minScope, $totalRecords);
+        $mealsData = $this->db->getRandomMealsAsPaginatedRecords($login, $minMeals);
+        return $mealsData;
+    }
 }
