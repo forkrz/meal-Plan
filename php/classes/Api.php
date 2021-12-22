@@ -143,7 +143,6 @@ class Api
     {
 
         if ($this->JWT->decodeJwt($JWT) !== false) {
-            $login = $this->JWT->decodeJwt($JWT)->login;
             if ($this->db->getAllRecipesForMealPlan($planId)) {
                 http_response_code(200);
                 echo json_encode(array(

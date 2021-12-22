@@ -1,21 +1,21 @@
 import { Api } from "./Api.js";
 import { Modals } from "./Modals.js";
 import { Pagination } from "./Pagination.js";
-export class Table {
+export class RandomTable {
     constructor() {
         this.Api = new Api;
         this.Modals = new Modals;
         this.Pag = new Pagination;
     }
 
-    mealPlansData = async(minScope, maxScope) => {
-        const records = await this.Api.getPaginatedRecords(minScope, maxScope);
+    randomMealsData = async(minScope, maxScope) => {
+        const records = await this.Api.getRandomMealsAsPaginatedRecords(minScope, maxScope);
         const recordsJson = await records.json();
         return recordsJson['meals'];
     }
 
-    TotalNoOfRecordsForUser = async(minScope, maxScope) => {
-        const records = await this.Api.getPaginatedRecords(minScope, maxScope);
+    totalNoOfRecordsForUser = async(minScope, maxScope) => {
+        const records = await this.Api.getRandomMealsAsPaginatedRecords(minScope, maxScope);
         const recordsJson = await records.json();
         return recordsJson['TotalPlansForUser'];
     }
@@ -24,32 +24,29 @@ export class Table {
         const table = document.getElementById('table');
         table.innerHTML = `<thead>
         <tr class="userInterface__tableContent__table__headings">
-            <th>PLAN_ID</th>
-            <th>CALORIES</th>
-            <th>PROTEINS</th>
-            <th>FATS</th>
-            <th>CARBOHYDRATES</th>
-            <th>SHOW MEALS</th>
+            <th>MEAL ID</th>
+            <th>NAME</th>
+            <th>PREP_TIME</th>
+            <th>SERVINGS</th>
+            <th>DETAILED INFO</th>
         </tr>
     </thead>
     <tbody id="tbody">
-    </tbody>`
-
+    </tbody>`;
     }
+
     createTrElement = (records, n) => {
         const tbody = document.getElementById('tbody');
         tbody.insertAdjacentHTML('beforeEnd', '<tr id="tr' + n + '"></tr>');
         this.createTdElements(records, n);
         this.showMealsAddEvenListeners(n);
     }
-
     createTdElements = (records, n) => {
         const tr = document.getElementById('tr' + n);
-        tr.insertAdjacentHTML('beforeend', `<td id="planId${n}">` + records[n].PLAN_ID + '</td>');
-        tr.insertAdjacentHTML('beforeend', '<td>' + records[n].CALORIES + '</td>');
-        tr.insertAdjacentHTML('beforeend', '<td>' + records[n].PROTEINS + '</td>');
-        tr.insertAdjacentHTML('beforeend', '<td>' + records[n].FATS + '</td>');
-        tr.insertAdjacentHTML('beforeend', '<td>' + records[n].CARBOHYDRATES + '</td>');
+        tr.insertAdjacentHTML('beforeend', `<td id="planId${n}">` + records[n].RANDOM_MEAL_ID + '</td>');
+        tr.insertAdjacentHTML('beforeend', '<td>' + records[n].NAME + '</td>');
+        tr.insertAdjacentHTML('beforeend', '<td>' + records[n].PREP_TIME + '</td>');
+        tr.insertAdjacentHTML('beforeend', '<td>' + records[n].SERVINGS + '</td>');
         tr.insertAdjacentHTML('beforeend', '<td><button class="showMealsButton"id="showMeals' + n + '">SHOW MEALS</button></td>');
         const button = document.getElementById(`showMeals${n}`);
         button.dataset.indexNumber = n;
@@ -64,11 +61,11 @@ export class Table {
         });
     }
 
-    insertMealsPlansDataIntoTable = async(minScope, maxScope) => {
-        const records = await this.mealPlansData(minScope, maxScope);
-        console.log('Table', records);
+    insertRandomMealsDataIntoTable = async(minScope, maxScope) => {
+        const records = await this.randomMealsData(minScope, maxScope);
+        console.log('RandomTable', records);
         const tbody = document.getElementById('tbody');
-        const maxRecords = await this.TotalNoOfRecordsForUser(0, 10);
+        const maxRecords = await this.totalNoOfRecordsForUser(0, 10);
         tbody.innerHTML = "";
         this.Pag.firstNotesAndpreviousButtonsController(minScope);
         this.Pag.lastNotesAndNextButtonsController(maxScope, maxRecords);
@@ -77,8 +74,8 @@ export class Table {
         const replaceNavButtons = (buttonId, clickHandler) => {
             const buttonNode = document.getElementById(buttonId);
             const parentNode = buttonNode.parentElement;
-            const newButtonNode = buttonNode.cloneNode(true);
             buttonNode.remove();
+            const newButtonNode = buttonNode.cloneNode(true);
             newButtonNode.addEventListener('click', clickHandler);
             parentNode.appendChild(newButtonNode);
         }
@@ -87,64 +84,63 @@ export class Table {
             () => {
                 minScope = 0;
                 maxScope = 10;
-                this.insertMealsPlansDataIntoTable(minScope, maxScope);
+                this.insertRandomMealsDataIntoTable(minScope, maxScope);
             },
             () => {
                 minScope -= 10;
                 maxScope -= 10;
-                this.insertMealsPlansDataIntoTable(minScope, maxScope);
+                this.insertRandomMealsDataIntoTable(minScope, maxScope);
             },
             () => {
-                console.log('Table event');
+                console.log('RandomTable event');
                 minScope += 10;
                 maxScope += 10;
-                this.insertMealsPlansDataIntoTable(minScope, maxScope);
+                this.insertRandomMealsDataIntoTable(minScope, maxScope);
             },
             async() => {
-                const noteCount = await this.TotalNoOfRecordsForUser(0, 10);
+                const noteCount = await this.totalNoOfRecordsForUser(0, 10);
                 const minCount = noteCount - noteCount % 10;
                 minScope = minCount;
                 maxScope = minCount + 10;
-                this.insertMealsPlansDataIntoTable(minScope, maxScope);
+                this.insertRandomMealsDataIntoTable(minScope, maxScope);
             }
         ]
         buttonsIdsArray.forEach((id, i) => {
             replaceNavButtons(id, buttonsHandlersArray[i])
         })
 
+
         // const getFirstNotes = document.getElementById('firstRecordsButton');
         // const getPreviousNotes = document.getElementById('previousRecordsButton');
         // const getNextRecords = document.getElementById('nextRecordsButton');
         // const getLastRecords = document.getElementById('lastRecordsButton');
 
-
-
         // getFirstNotes.addEventListener('click', () => {
         //     minScope = 0;
         //     maxScope = 10;
-        //     this.insertMealsPlansDataIntoTable(minScope, maxScope);
+        //     this.insertRandomMealsDataIntoTable(minScope, maxScope);
         // });
 
         // getPreviousNotes.addEventListener('click', () => {
         //     minScope -= 10;
         //     maxScope -= 10;
-        //     this.insertMealsPlansDataIntoTable(minScope, maxScope);
+        //     this.insertRandomMealsDataIntoTable(minScope, maxScope);
         // });
 
         // getNextRecords.addEventListener('click', () => {
-        //     console.log('Table event');
+        //     console.log('RandomTable event');
         //     minScope += 10;
         //     maxScope += 10;
-        //     this.insertMealsPlansDataIntoTable(minScope, maxScope);
+        //     this.insertRandomMealsDataIntoTable(minScope, maxScope);
         // });
 
         // getLastRecords.addEventListener('click', async() => {
-        //     const noteCount = await this.TotalNoOfRecordsForUser(0, 10);
+        //     const noteCount = await this.totalNoOfRecordsForUser(0, 10);
         //     const minCount = noteCount - noteCount % 10;
         //     minScope = minCount;
         //     maxScope = minCount + 10;
-        //     this.insertMealsPlansDataIntoTable(minScope, maxScope);
+        //     this.insertRandomMealsDataIntoTable(minScope, maxScope);
         // });
-    }
 
+    }
 }
