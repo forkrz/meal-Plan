@@ -177,18 +177,16 @@ export class Modals {
     }
 
     showPrepTimeAndQtyOfServings = (numberOfRecipe, meals) => {
-        console.log(meals);
         modalContent.insertAdjacentHTML('beforeend', '<div class="PrepTimeServings"><span class="PrepTimeServings__span">Time to prepare: ' + meals[numberOfRecipe]['PREPTIME'] + 'min' + '</span><span class="PrepTimeServings__span">Servings:' + meals[numberOfRecipe]['SERVINGS'] + '</span></div>')
     }
-
-
 
     showReicpeDetailInfo = (atribute, numberOfRecipe, meals) => {
         const modalContent = document.getElementById('modalContent');
         const modal = document.getElementById('modal');
         let i = 0;
         modalContent.style.minWidth = 10;
-        modalContent.insertAdjacentHTML('beforeend', '<button class="material-icons modal__header__button" id="closeButton">close</button>' + '<ul class="ingirdients" id="listOfIngridents"><span class="listOfIngridents__header">' + meals[numberOfRecipe].title + '</span><span class="listOfIngridents__header">Ingridients:</span></ul>');
+        console.log(meals);
+        modalContent.insertAdjacentHTML('beforeend', '<button class="material-icons modal__header__button" id="closeButton">close</button>' + '<ul class="ingirdients" id="listOfIngridents"><span class="listOfIngridents__header">' + meals[numberOfRecipe].TITLE + '</span><span class="listOfIngridents__header">Ingridients:</span></ul>');
         const list = document.getElementById('listOfIngridents');
         const ingirdientsData = this.getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute, meals);
         const listelement = list.appendChild(document.createElement('li'));
@@ -339,5 +337,72 @@ export class Modals {
         });
     }
 
+
+    showMealsFromRandomMealsList = async(minScope) => {
+        const apiRes = await this.api.getRandomMealsAsPaginatedRecords(minScope);
+        const modalContent = document.getElementById('modalContent');
+        modalContent.innerHTML = "";
+        modalContent.style.minWidth = 35 + "%";
+        modalContent.style.maxWidth = 0;
+        this.addList(modalContent);
+
+        apiRes.forEach((el, n) => this.showTitleOfRecipeAndLinksForMealPlan(el, n));
+
+        const closeButton = document.getElementById('closeButton');
+        const modal = document.getElementById('modal');
+        this.displayModal(modal);
+
+        const showRecipe0 = document.getElementById('showRecipeMealPlan0');
+        const showRecipe1 = document.getElementById('showRecipeMealPlan1');
+        const showRecipe2 = document.getElementById('showRecipeMealPlan2');
+        const errorBox = document.getElementById('FinalError');
+
+        closeButton.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            modal.classList.add('hide');
+        })
+
+        showRecipe0.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showReicpeDetailInfo('originalString', 0, apiRes);
+        });
+        showRecipe1.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showReicpeDetailInfo('originalString', 1, apiRes);
+        });
+        showRecipe2.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showReicpeDetailInfo('originalString', 2, apiRes);
+        });
+    }
+
+
+
+    showDetailInforForRandomRecipe = async(mealId) => {
+        getDeatilInfo = async(minScope) => {
+            const records = await this.api.getRandomMealsAsPaginatedRecords(minScope);
+            const recordsJson = await records.json();
+            return recordsJson['meals'];
+        }
+    }
+
+    showRandomReicpeDetailInfo = (atribute, numberOfRecipe, meals) => {
+        const modalContent = document.getElementById('modalContent');
+        const modal = document.getElementById('modal');
+        let i = 0;
+        modalContent.style.minWidth = 10;
+        modalContent.insertAdjacentHTML('beforeend', '<button class="material-icons modal__header__button" id="closeButton">close</button>' + '<ul class="ingirdients" id="listOfIngridents"><span class="listOfIngridents__header">' + meals[numberOfRecipe].title + '</span><span class="listOfIngridents__header">Ingridients:</span></ul>');
+        const list = document.getElementById('listOfIngridents');
+        const ingirdientsData = this.getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute, meals);
+        const listelement = list.appendChild(document.createElement('li'));
+        listelement.insertAdjacentHTML('beforeend', ingirdientsData);
+        this.showPrepTimeAndQtyOfServings(numberOfRecipe, meals);
+        this.showPrepInstructionForOneMeal(numberOfRecipe, meals);
+        const closeButton = document.getElementById('closeButton');
+        closeButton.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            modal.classList.add('hide');
+        })
+    }
 
 }

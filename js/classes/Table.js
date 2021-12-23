@@ -66,7 +66,6 @@ export class Table {
 
     insertMealsPlansDataIntoTable = async(minScope, maxScope) => {
         const records = await this.mealPlansData(minScope, maxScope);
-        console.log('Table', records);
         const tbody = document.getElementById('tbody');
         const maxRecords = await this.TotalNoOfRecordsForUser(0, 10);
         tbody.innerHTML = "";
@@ -95,7 +94,6 @@ export class Table {
                 this.insertMealsPlansDataIntoTable(minScope, maxScope);
             },
             () => {
-                console.log('Table event');
                 minScope += 10;
                 maxScope += 10;
                 this.insertMealsPlansDataIntoTable(minScope, maxScope);

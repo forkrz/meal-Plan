@@ -57,13 +57,12 @@ export class RandomTable {
         const planId = document.getElementById(`planId${n}`)
         const button = document.querySelector(`[data-index-number="${n}"]`);
         button.addEventListener('click', () => {
-            this.Modals.showMealsFromMealPlan(planId.innerText);
+            this.Modals.showMealsFromRandomMealsList(planId.innerText);
         });
     }
 
     insertRandomMealsDataIntoTable = async(minScope, maxScope) => {
         const records = await this.randomMealsData(minScope, maxScope);
-        console.log('RandomTable', records);
         const tbody = document.getElementById('tbody');
         const maxRecords = await this.totalNoOfRecordsForUser(0, 10);
         tbody.innerHTML = "";
@@ -92,7 +91,6 @@ export class RandomTable {
                 this.insertRandomMealsDataIntoTable(minScope, maxScope);
             },
             () => {
-                console.log('RandomTable event');
                 minScope += 10;
                 maxScope += 10;
                 this.insertRandomMealsDataIntoTable(minScope, maxScope);
