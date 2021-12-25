@@ -142,24 +142,28 @@ export class Validator {
         }
     }
 
-    caloriesInputVisualValidation = (input, errorBox) => {
+    caloriesInputVisualValidation = (input, errorBox, button) => {
         if (this.caloriesInputValidation(input)) {
             errorBox.classList.add('hide');
+            button.disabled = false;
+            button.classList.remove("blocked");
             return true;
         } else {
             errorBox.classList.remove('hide');
+            button.disabled = true;
+            button.classList.add("blocked");
             return false;
         }
     }
 
-    generateMealPlanHandler = (diet, timeframe, calories, errorbox) => {
-        if (this.caloriesInputVisualValidation(calories, errorbox)) {
+    generateMealPlanHandler = (diet, timeframe, calories, errorbox, button) => {
+        if (this.caloriesInputVisualValidation(calories, errorbox, button)) {
             return this.Api.generateMealPlan(diet, timeframe, calories);
         }
     }
 
-    generateMealPlanStatusHander = async(diet, timeframe, calories, errorbox) => {
-        const res = await this.generateMealPlanHandler(diet, timeframe, calories, errorbox);
+    generateMealPlanStatusHander = async(diet, timeframe, calories, errorbox, button) => {
+        const res = await this.generateMealPlanHandler(diet, timeframe, calories, errorbox, button);
         const resJson = await res.json();
         if (res.status === 200) {
             errorbox.innerText = resJson.message;
@@ -169,6 +173,10 @@ export class Validator {
             errorbox.innerText = resJson.message;
             errorbox.classList.remove('hide');
         }
+    }
+
+    saveResInLocalStorage = (res) => {
+        localStorage.setItem('randomRecipes', JSON.stringify(res));
     }
 
     getRandomRecipeHandler = async(diet, cuisine, meal, errorbox) => {
@@ -178,6 +186,7 @@ export class Validator {
             errorbox.innerText = resJson.message;
             errorbox.style.color = "#0B5F43";
             errorbox.classList.remove('hide');
+            this.saveResInLocalStorage(resJson.mealsData);
             return true;
         } else {
             errorbox.innerText = resJson.message;

@@ -127,7 +127,7 @@ class Database
     public function addMealPlansController(string $login, string $timeFrame, string $targetCalories, string $diet)
     {
         $array = $this->meal->generateMealPlan($timeFrame, $targetCalories, $diet);
-        if ($timeFrame = "week") {
+        if ($timeFrame == "week") {
             if ($this->addMealPlansforWholeWheek($array, $login)) {
                 return true;
             } else {
@@ -233,6 +233,16 @@ class Database
         $query = "SELECT * FROM random_meals WHERE USER_LOGIN =:USER_LOGIN LIMIT {$min}, 10";
         $statement = $this->con->prepare($query);
         $statement->bindParam(':USER_LOGIN', $login);
+        $statement->execute();
+        $result = $statement->fetchall(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getDataForOneRandomMeal($mealId)
+    {
+        $query = "SELECT * FROM random_meals WHERE RANDOM_MEAL_ID =:RANDOM_MEAL_ID";
+        $statement = $this->con->prepare($query);
+        $statement->bindParam(':USER_LOGIN', $mealId);
         $statement->execute();
         $result = $statement->fetchall(PDO::FETCH_ASSOC);
         return $result;

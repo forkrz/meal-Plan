@@ -64,7 +64,7 @@ class Api
                 http_response_code(200);
                 echo json_encode(
                     array(
-                        "message" => "Meal Plan generated"
+                        "message" => "Meal Plan generated. You can close these window."
                     )
                 );
             } else {
@@ -117,7 +117,7 @@ class Api
         }
     }
 
-    public function getPaginatedRecordsForRandomRecipes(string $JWT, int $minScope)
+    public function getPaginatedRecordsForRandomRecipes(string $JWT, $minScope)
     {
 
         if ($this->JWT->decodeJwt($JWT) !== false) {
@@ -148,6 +148,26 @@ class Api
                 echo json_encode(array(
                     "message" => "Ok",
                     "meals" => $this->db->getAllRecipesForMealPlan($planId),
+                ));
+            } else {
+                http_response_code(401);
+                echo json_encode(array("message" => "Unable to load Meals.Please try again later."));
+            }
+        } else {
+            http_response_code(401);
+            echo json_encode(array("message" => "Unable to load Meals.Please try again later."));
+        }
+    }
+
+    public function getDataForSingleRandomMeal(string $JWT, $mealId)
+    {
+
+        if ($this->JWT->decodeJwt($JWT) !== false) {
+            if ($this->db->getDataForOneRandomMeal($mealId)) {
+                http_response_code(200);
+                echo json_encode(array(
+                    "message" => "Ok",
+                    "meals" => $this->db->getDataForOneRandomMeal($mealId),
                 ));
             } else {
                 http_response_code(401);

@@ -1,6 +1,4 @@
 import { Modals } from './classes/Modals.js';
-import { Validator } from './classes/Validator.js';
-import { Api } from './classes/Api.js';
 import { Table } from './classes/Table.js';
 import { RandomTable } from './classes/RandomMealTable.js';
 
@@ -26,6 +24,10 @@ addMealPlanButton.addEventListener('click', () => {
     modal.GenerateMealPlanmodalHandler(addMealPlanModal, addMealPlanModal);
 });
 
+generateRandomMealIcon.addEventListener('click', () => {
+    modal.getRandomRecipeModalHandler(addMealPlanModal, addMealPlanModal);
+});
+
 mealPlansTab.addEventListener('click', () => {
     let minNotes = 0;
     let maxNotes = 10;
@@ -38,8 +40,4 @@ randomMealsTab.addEventListener('click', () => {
     let maxNotes = 10;
     randomTable.modifyHeadersOfTheTable();
     randomTable.insertRandomMealsDataIntoTable(minNotes, maxNotes);
-});
-
-generateRandomMealIcon.addEventListener('click', () => {
-    modal.getRandomRecipeModalHandler(addMealPlanModal, addMealPlanModal);
 });

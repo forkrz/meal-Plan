@@ -57,7 +57,7 @@ export class RandomTable {
         const planId = document.getElementById(`planId${n}`)
         const button = document.querySelector(`[data-index-number="${n}"]`);
         button.addEventListener('click', () => {
-            this.Modals.showMealsFromRandomMealsList(planId.innerText);
+            this.Modals.showRandomReicpeDetailInfo(atribute, n, meals);
         });
     }
 

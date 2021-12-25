@@ -10,7 +10,7 @@ class Pagination
         $this->db = new Database($config);
     }
 
-    private function getMinMeals(int $min, int $totalRecords): int
+    private function getMinMeals($min, int $totalRecords): int
     { {
             if ($min < 10) {
                 return 0;
@@ -30,7 +30,7 @@ class Pagination
         return $mealsData;
     }
 
-    public function getRandomMeals(string $login, int $minScope)
+    public function getRandomMeals(string $login, $minScope)
     {
         $totalRecords = $this->db->getTotalQuantityOfRandomMealsForUser($login);
         $minMeals = $this->getMinMeals($minScope, $totalRecords);
