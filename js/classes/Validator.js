@@ -187,6 +187,7 @@ export class Validator {
             errorbox.style.color = "#0B5F43";
             errorbox.classList.remove('hide');
             this.saveResInLocalStorage(resJson.mealsData);
+            this.HtmlElements.storeDietPreferencesForGeneratingRandomMeals(diet, cuisine, meal);
             return true;
         } else {
             errorbox.innerText = resJson.message;
@@ -194,8 +195,6 @@ export class Validator {
             return false;
         }
     }
-
-
 
     saveRandomRecipeHandler = async(title, prepTime, servings, ingredients, instruction, errorBox, numberOfRecipe) => {
         const res = await this.Api.saveRanndomRecipe(title, prepTime, servings, ingredients, instruction);

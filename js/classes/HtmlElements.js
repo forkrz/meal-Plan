@@ -1,5 +1,9 @@
-export class HtmlElements {
+import { Api } from "./Api.js";
 
+export class HtmlElements {
+    constructor() {
+        this.api = new Api();
+    }
     createSuccessIcon(li, saveIcon) {
         const span = document.createElement('span');
         span.className = "material-icons"
@@ -140,31 +144,83 @@ export class HtmlElements {
         <ul class="randomRecpiesList" id="randomRecpiesList"></ul>`)
     }
 
-    showTitleOfRecipeAndLinksForMealPlan = (element, n, title, numberOfCharsToDisplay) => {
+
+    createListWithRecipesToTableForRegeneratedRandomMeals = (modalContent) => {
+        modalContent.insertAdjacentHTML('beforeend',
+            `<ul class="randomRecpiesList" id="randomRecpiesList"></ul>`)
+    }
+
+    createTitleOfRecipeAndLinksForGeneratedRandomRecipes = (element, n, numberOfCharsToDisplay) => {
         const list = document.getElementById('randomRecpiesList');
-        if (element[title].length >= numberOfCharsToDisplay) {
+        if (element.length >= numberOfCharsToDisplay) {
             list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' +
                 '<span class="randomRecpiesList__element__span RecipeFromMealPlan">' +
-                element[title].substring(0, numberOfCharsToDisplay) + '...' + "</span>" +
+                element.substring(0, numberOfCharsToDisplay) + '...' + "</span>" +
                 '<button class="randomRecpiesList__element__button RecipeFromMealPlan" id="showRecipeMealPlan' + n +
-                '" >Show recipe</button>' + '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
+                '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' +
+                '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
         } else {
             list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' +
                 '<span class="randomRecpiesList__element__span RecipeFromMealPlan">' +
-                element[title] + "</span>" +
+                element + "</span>" +
                 '<button class="randomRecpiesList__element__button RecipeFromMealPlan" id="showRecipeMealPlan' + n +
-                '" >Show recipe</button>' + '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
+                '" >Show recipe</button>' + '<button class="randomRecpiesList__element__button" id="saveRecipe' + n + '">Save</button>' +
+                '<span class="form_errorInfoModal hide" id="FinalError"></span>' + '</li>');
         }
     }
-    showRecipeDetailnInfoAddEventListener = (buttonId) => {
+
+
+    showRecipeDetailInfoAddEventListener = (buttonId) => {
         buttonId.addEventListener('click', () => {
             modalContent.innerHTML = "";
             /*to be added*/
         });
     }
 
-    saveRecipeAddEventListener = (numberOfRecipe, dataArray) => {
-        this.Validator.saveRandomRecipeHandler(dataArray[numberOfRecipe].title, dataArray[numberOfRecipe].readyInMinutes, dataArray[numberOfRecipe].servings,
-            this.convertArrayOfIngridientsToString(numberOfRecipe), meals[numberOfRecipe].instructions, errorBox, numberOfRecipe);
+    getDataForRandomMealsFromLocalStorage = (itemName) => {
+        const res = localStorage.getItem(itemName);
+        const resJSON = JSON.parse(res);
+        return resJSON['recipes'];
+    }
+
+    createListElements = (recipesData) => {
+        recipesData.forEach((el, n) => {
+            this.createTitleOfRecipeAndLinksForGeneratedRandomRecipes(el['title'], n, 10);
+        });
+    }
+    createNewRandomRecipesIcon = (modalContent) => {
+        modalContent.insertAdjacentHTML('beforeend', `<span class="material-icons getNewRandomRecpies" id ="autorenew">autorenew</span>'`);
+    }
+
+    storeDietPreferencesForGeneratingRandomMeals = (dietType, cuisineType, mealType) => {
+        const data = [
+            { dietType: dietType },
+            { cuisineType: cuisineType },
+            { mealType: mealType }
+        ]
+
+        const dataStringify = JSON.stringify(data);
+        localStorage.setItem('RandomMealsPreferences', dataStringify);
+    }
+
+    createListOfIngridientsAndTitleForDetailedInfo = (modalContent, title) => {
+        modalContent.insertAdjacentHTML('beforeend', '<button class="material-icons modal__header__button" id="closeButton">close</button>' +
+            '<ul class="ingirdients" id="listOfIngridents"><span class="listOfIngridents__header">' +
+            title + '</span><span class="listOfIngridents__header">Ingridients:</span></ul>');
+    }
+
+    fillListOfIngridientsForDetailInfo = () => {
+        const list = document.getElementById('listOfIngridents');
+        const ingirdientsData = this.getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute, meals);
+        const listelement = list.appendChild(document.createElement('li'));
+        listelement.insertAdjacentHTML('beforeend', ingirdientsData);
+    }
+
+    showReicpeDetailInfo = (modalContent, title) => {
+        modalContent.style.minWidth = 10;
+        this.createListOfIngridientsAndTitleForDetailedInfo(modalContent, title);
+
+        this.showPrepTimeAndQtyOfServings(numberOfRecipe, meals);
+        this.showPrepInstructionForOneMeal(numberOfRecipe, meals);
     }
 }

@@ -18,6 +18,7 @@ export class Modals {
         modal.innerHTML = "";
     }
 
+
     getRandomRecipeModalHandler = (modalContainer, modalName) => {
         this.htmlElements.createGetRandomRecipeModal(modalContainer, modalName);
         this.displayModal(modalContainer);
@@ -68,7 +69,6 @@ export class Modals {
 
     showReicpeDetailInfo = (atribute, numberOfRecipe, meals) => {
         const modalContent = document.getElementById('modalContent');
-        const modal = document.getElementById('modal');
         let i = 0;
         modalContent.style.minWidth = 10;
 
@@ -77,13 +77,73 @@ export class Modals {
         this.showPrepInstructionForOneMeal(numberOfRecipe, meals);
     }
 
+    convertArrayOfIngridientsToString = (arrayWithIngredients) => {
+        let ingr = [];
+        arrayWithIngredients.forEach((ingirdient) => {
+            ingr.push(ingirdient.originalString);
+        })
+        return String(ingr);
+    }
+
+
+    getNewRandomRecipes = async(modalContent) => {
+        const preferences = localStorage.getItem('RandomMealsPreferences');
+        const preferencesAsArray = JSON.parse(preferences);
+        const res = await this.api.getRandomRecipe(preferencesAsArray[0].dietType, preferencesAsArray[1].cuisineType, preferencesAsArray[2].mealType);
+        const resJSON = await res.json();
+        document.getElementById('randomRecpiesList').innerHTML = "";
+        this.htmlElements.closeIconAddEvenListener(modalContent);
+        localStorage.setItem('randomRecipes', JSON.stringify(resJSON['mealsData']));
+        this.htmlElements.createListElements(this.htmlElements.getDataForRandomMealsFromLocalStorage('randomRecipes'));
+        const saveRecipe0 = document.getElementById('saveRecipe0');
+        const saveRecipe1 = document.getElementById('saveRecipe1');
+        const saveRecipe2 = document.getElementById('saveRecipe2');
+        const meals = this.htmlElements.getDataForRandomMealsFromLocalStorage('randomRecipes');
+        const errorBox = document.getElementById('FinalError');
+        saveRecipe0.addEventListener('click', () => {
+            this.validator.saveRandomRecipeHandler(meals[0].title, meals[0].readyInMinutes, meals[0].servings, this.convertArrayOfIngridientsToString(meals[0].extendedIngredients), meals[0].instructions, errorBox, 0);
+        })
+
+        saveRecipe1.addEventListener('click', () => {
+            this.validator.saveRandomRecipeHandler(meals[1].title, meals[1].readyInMinutes, meals[1].servings, this.convertArrayOfIngridientsToString(meals[1].extendedIngredients), meals[1].instructions, errorBox, 1);
+        })
+
+        saveRecipe2.addEventListener('click', () => {
+            this.validator.saveRandomRecipeHandler(meals[2].title, meals[2].readyInMinutes, meals[2].servings, this.convertArrayOfIngridientsToString(meals[2].extendedIngredients), meals[2].instructions, errorBox, 2);
+        })
+    }
+
+
     showGeneratedRandomMeals = (modalContent) => {
         modalContent.innerHTML = "";
         modalContent.style.minWidth = 35 + "%";
         modalContent.style.maxWidth = 0;
-        this.addList(modalContent);
-        meals.forEach((el, n) => this.showTitleOfRandomRecipeAndLinks(el, n));
-        modalContent.insertAdjacentHTML('beforeend', `<span class="material-icons getNewRandomRecpies" id ="autorenew">autorenew</span>`)
+        this.htmlElements.createListWithRecipesToTable(modalContent);
+        this.htmlElements.closeIconAddEvenListener(modalContent);
+        this.htmlElements.createListElements(this.htmlElements.getDataForRandomMealsFromLocalStorage('randomRecipes'));
+        this.htmlElements.createNewRandomRecipesIcon(modalContent);
+        const refreshButton = document.getElementById('autorenew');
+        refreshButton.addEventListener('click', () => {
+            this.getNewRandomRecipes(modalContent);
+        });
+
+        const saveRecipe0 = document.getElementById('saveRecipe0');
+        const saveRecipe1 = document.getElementById('saveRecipe1');
+        const saveRecipe2 = document.getElementById('saveRecipe2');
+        const meals = this.htmlElements.getDataForRandomMealsFromLocalStorage('randomRecipes');
+        const errorBox = document.getElementById('FinalError');
+        saveRecipe0.addEventListener('click', () => {
+            this.validator.saveRandomRecipeHandler(meals[0].title, meals[0].readyInMinutes, meals[0].servings, this.convertArrayOfIngridientsToString(meals[0].extendedIngredients), meals[0].instructions, errorBox, 0);
+        })
+
+        saveRecipe1.addEventListener('click', () => {
+            this.validator.saveRandomRecipeHandler(meals[1].title, meals[1].readyInMinutes, meals[1].servings, this.convertArrayOfIngridientsToString(meals[1].extendedIngredients), meals[1].instructions, errorBox, 1);
+        })
+
+        saveRecipe2.addEventListener('click', () => {
+            this.validator.saveRandomRecipeHandler(meals[2].title, meals[2].readyInMinutes, meals[2].servings, this.convertArrayOfIngridientsToString(meals[2].extendedIngredients), meals[2].instructions, errorBox, 2);
+        })
+
     }
 
     showMealsFromMealPlan = async(planId) => {
