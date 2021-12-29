@@ -5,6 +5,8 @@ export class Cookies {
         d.setTime(d.getTime() + (3600 * 2000));
         let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        setTimeout(function() { location.href = "http://mp.localhost/index.html" }, 10000);
+
     }
 
     getCookie(cname) {
@@ -26,7 +28,7 @@ export class Cookies {
 
     eraseCookie(cname) {
         document.cookie = cname + '=; Max-Age=-99999999;';
-        window.location.href = "http://mp.localhost/index.html"
+        setTimeout(function() { location.href = "http://mp.localhost/index.html" }, 5000);
     }
 
     isCookieSet = (cname) => {

@@ -41,3 +41,6 @@ randomMealsTab.addEventListener('click', () => {
     randomTable.modifyHeadersOfTheTable();
     randomTable.insertRandomMealsDataIntoTable(minNotes, maxNotes);
 });
+
+
+setTimeout(function() { location.href = "http://mp.localhost/index.html" }, 3600 * 2000);

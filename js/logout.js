@@ -1,4 +1,4 @@
 import { Cookies } from './classes/Cookies.js';
 
-const Cookies = new Cookies;
-Cookies.eraseCookie('jwt');
+const cookies = new Cookies;
+cookies.eraseCookie('jwt');
