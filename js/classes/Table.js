@@ -1,11 +1,13 @@
 import { Api } from "./Api.js";
 import { Modals } from "./Modals.js";
 import { Pagination } from "./Pagination.js";
+import { HtmlElements } from "./HtmlElements.js";
 export class Table {
     constructor() {
         this.Api = new Api;
         this.Modals = new Modals;
         this.Pag = new Pagination;
+        this.HtmlElements = new HtmlElements;
     }
 
     mealPlansData = async(minScope, maxScope) => {
@@ -60,7 +62,7 @@ export class Table {
         const planId = document.getElementById(`planId${n}`)
         const button = document.querySelector(`[data-index-number="${n}"]`);
         button.addEventListener('click', () => {
-            this.Modals.showMealsFromMealPlan(planId.innerText);
+            this.HtmlElements.showMealsFromMealPlan(n);
         });
     }
 

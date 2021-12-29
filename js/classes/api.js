@@ -109,6 +109,22 @@ export class Api {
         return response;
     }
 
+    getRandomRecipeDetailInfoFromDB = async(mealID) => {
+        const response = await (fetch('http://mp.localhost/php/api/getDataForOneRandomMeal.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                mealID: mealID,
+                JWT: this.Cookies.getCookie('jwt')
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        }));
+        return response;
+    }
+
+
+
     getRandomMealsAsPaginatedRecords = async(minScope) => {
         const response = await (fetch('http://mp.localhost/php/api/paginationRandomRecipes.php', {
             method: 'POST',

@@ -36,4 +36,5 @@ export class Cookies {
             return false;
         }
     }
+
 }

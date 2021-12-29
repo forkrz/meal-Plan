@@ -15,6 +15,19 @@ export class HtmlElements {
     hideModal = () => {
         const modal = document.getElementById('modal');
         modal.classList.add('hide');
+        this.addAddMealPLanAndGetRandomMealsIcons();
+    }
+
+
+
+    hideAddMealPLanAndGetRandomMealsIcons = () => {
+        const icons = document.getElementById('addMealPlanIconAndGenerateRandomMealIcon');
+        icons.style.display = 'none';
+    }
+
+    addAddMealPLanAndGetRandomMealsIcons = () => {
+        const icons = document.getElementById('addMealPlanIconAndGenerateRandomMealIcon');
+        icons.style.display = 'flex';
     }
 
     createGenerateMealPlansModal = (modalContainer) => {
@@ -107,10 +120,9 @@ export class HtmlElements {
         container.replaceChildren(icon, button);
     }
 
-    closeIconAddEvenListener = (modalContainer) => {
+    closeIconAddEvenListener = () => {
         const closeButton = document.getElementById('closeButton');
         closeButton.addEventListener('click', () => {
-            modalContainer.innerHTML = "";
             this.hideModal();
         });
     }
@@ -141,8 +153,9 @@ export class HtmlElements {
         modalContent.insertAdjacentHTML('beforeend',
             `<button class="material-icons modal__header__button" id="closeButton">close</button>
         <span class="randomRecpiesSpan">Recipes:</span>
-        <ul class="randomRecpiesList" id="randomRecpiesList"></ul>`)
+        <ul class="randomRecpiesList" id="randomRecpiesList"></ul>`);
     }
+
 
 
     createListWithRecipesToTableForRegeneratedRandomMeals = (modalContent) => {
@@ -169,21 +182,13 @@ export class HtmlElements {
         }
     }
 
-
-    showRecipeDetailInfoAddEventListener = (buttonId) => {
-        buttonId.addEventListener('click', () => {
-            modalContent.innerHTML = "";
-            /*to be added*/
-        });
-    }
-
     getDataForRandomMealsFromLocalStorage = (itemName) => {
         const res = localStorage.getItem(itemName);
         const resJSON = JSON.parse(res);
         return resJSON['recipes'];
     }
 
-    createListElements = (recipesData) => {
+    createListElementsForRandomMeals = (recipesData) => {
         recipesData.forEach((el, n) => {
             this.createTitleOfRecipeAndLinksForGeneratedRandomRecipes(el['title'], n, 10);
         });
@@ -209,18 +214,148 @@ export class HtmlElements {
             title + '</span><span class="listOfIngridents__header">Ingridients:</span></ul>');
     }
 
-    fillListOfIngridientsForDetailInfo = () => {
+    convertArrayOfIngridientsToString = (arrayWithIngredients) => {
+        let ingr = [];
+        arrayWithIngredients.forEach((ingirdient) => {
+            ingr.push(ingirdient.originalString);
+        })
+        return String(ingr);
+    }
+
+    fillListOfIngridientsForDetailInfoForGeneratedRandomMeal = (arrayWithIngredients) => {
         const list = document.getElementById('listOfIngridents');
-        const ingirdientsData = this.getSpecifiedIngredientsDataForOneRecipe(numberOfRecipe, atribute, meals);
+        const listelement = list.appendChild(document.createElement('li'));
+        const ingirdientsData = this.convertArrayOfIngridientsToString(arrayWithIngredients);
+        listelement.insertAdjacentHTML('beforeend', ingirdientsData);
+    }
+
+
+    showPrepTimeAndQtyOfServings = (prepTime, servings) => {
+        modalContent.insertAdjacentHTML('beforeend', '<div class="PrepTimeServings"><span class="PrepTimeServings__span">Time to prepare: ' + prepTime +
+            'min' + '</span><span class="PrepTimeServings__span">Servings:' + servings + '</span></div>')
+    }
+
+    showPrepInstructionForOneMeal = (instruction) => {
+            modalContent.insertAdjacentHTML('beforeend', '<span class="listOfIngridents__header">Instruction:</span>' + '<span class="recipeConatiner">' + instruction + '</span>')
+        }
+        // showRandomReicpeDetailInfo = (modalContent, title, prepTime, servings, instruction, listOfIngredients) => {
+        //     modalContent.style.minWidth = 10;
+        //     this.createListOfIngridientsAndTitleForDetailedInfo(modalContent, title);
+        //     this.fillListOfIngridientsForDetailInfoForGeneratedRandomMeal(listOfIngredients)
+        //     this.showPrepTimeAndQtyOfServings(prepTime, servings);
+        //     this.showPrepInstructionForOneMeal(instruction);
+        // }
+
+    selectAllElememtsWithSpecificDataAtributeSet = async() => {
+        const showMealsButtons = document.querySelectorAll("[data-index-number]");
+        const planId = document.getElementById(`planId0`).innerText;
+        const res = await this.api.getMealsForOneMealPlan(planId);
+        const resJSON = await res.json();
+        console.log(await resJSON['meals']);
+
+    }
+
+    createListElementsForMealsFromMealPlan = (recipesData) => {
+        recipesData.forEach((el, n) => {
+            this.createTitleOfRecipeAndLinksForMealPlan(el['TITLE'], n, 10);
+        });
+    }
+
+    createTitleOfRecipeAndLinksForMealPlan = (element, n, numberOfCharsToDisplay) => {
+        const list = document.getElementById('randomRecpiesList');
+        if (element.length >= numberOfCharsToDisplay) {
+            list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' +
+                '<span class="randomRecpiesList__element__span RecipeFromMealPlan">' +
+                element.substring(0, numberOfCharsToDisplay) + '...' + "</span>" +
+                '<button class="randomRecpiesList__element__button RecipeFromMealPlan" id="showRecipeMealPlan' + n +
+                '" >Show recipe</button>');
+        } else {
+            list.insertAdjacentHTML('beforeend', '<li class="randomRecpiesList__element" id="randomRecpiesListElement' + n + '">' +
+                '<span class="randomRecpiesList__element__span RecipeFromMealPlan">' +
+                element + "</span>" +
+                '<button class="randomRecpiesList__element__button RecipeFromMealPlan" id="showRecipeMealPlan' + n +
+                '" >Show recipe</button>');
+        }
+    }
+
+    fillListOfIngridientsForDetailInfoForSavedMeal = (ingirdientsData) => {
+        const list = document.getElementById('listOfIngridents');
         const listelement = list.appendChild(document.createElement('li'));
         listelement.insertAdjacentHTML('beforeend', ingirdientsData);
     }
 
-    showReicpeDetailInfo = (modalContent, title) => {
+    closeIconForDetailedVievForSavedMealsAddEvenListener = (n) => {
+        const closeButton = document.getElementById('closeButton');
+        closeButton.addEventListener('click', () => {
+            this.showMealsFromMealPlan(n)
+        });
+    }
+
+
+
+    showMealPlanReicpeDetailInfo = (modalContent, title, prepTime, servings, instruction, listOfIngredients, n) => {
         modalContent.style.minWidth = 10;
         this.createListOfIngridientsAndTitleForDetailedInfo(modalContent, title);
-
-        this.showPrepTimeAndQtyOfServings(numberOfRecipe, meals);
-        this.showPrepInstructionForOneMeal(numberOfRecipe, meals);
+        this.fillListOfIngridientsForDetailInfoForSavedMeal(listOfIngredients)
+        this.showPrepTimeAndQtyOfServings(prepTime, servings);
+        this.showPrepInstructionForOneMeal(instruction);
+        this.closeIconAddEvenListener();
     }
+
+    showRandomRecipeDetailInfo = async(n) => {
+        const modalConent = document.getElementById('modalContent');
+        modalConent.innerHTML = "";
+        document.getElementById('modal').classList.remove('hide');
+        this.hideAddMealPLanAndGetRandomMealsIcons();
+        const mealId = document.getElementById(`planId${n}`).innerText;
+        const res = await this.api.getRandomRecipeDetailInfoFromDB(mealId);
+        const resJSON = await res.json();
+        modalConent.style.minWidth = 10;
+        this.createListOfIngridientsAndTitleForDetailedInfo(modalConent, resJSON['meals'][0].NAME);
+        this.fillListOfIngridientsForDetailInfoForSavedMeal(resJSON['meals'][0].INGRIDIENTS)
+        this.showPrepTimeAndQtyOfServings(resJSON['meals'][0].PREP_TIME, resJSON['meals'][0].SERVINGS);
+        this.showPrepInstructionForOneMeal(resJSON['meals'][0].INSTRUCTION);
+        this.closeIconAddEvenListener();
+    }
+
+
+    showMealFromMealPlanDetailInfoAddEventListeners = (resJSON, n) => {
+        const showRecipeMealPlan0 = document.getElementById('showRecipeMealPlan0');
+        const showRecipeMealPlan1 = document.getElementById('showRecipeMealPlan1');
+        const showRecipeMealPlan2 = document.getElementById('showRecipeMealPlan2');
+        showRecipeMealPlan0.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showMealPlanReicpeDetailInfo(modalContent, resJSON['meals'][0].TITLE, resJSON['meals'][0].PREPTIME, resJSON['meals'][0].SERVINGS, resJSON['meals'][0].INSTRUCTION, resJSON['meals'][0].INGRIDIENTS);
+            this.closeIconForDetailedVievForSavedMealsAddEvenListener(n);
+        });
+        showRecipeMealPlan1.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showMealPlanReicpeDetailInfo(modalContent, resJSON['meals'][1].TITLE, resJSON['meals'][1].PREPTIME, resJSON['meals'][1].SERVINGS, resJSON['meals'][1].INSTRUCTION, resJSON['meals'][1].INGRIDIENTS);
+            this.closeIconForDetailedVievForSavedMealsAddEvenListener(n);
+        });
+        showRecipeMealPlan2.addEventListener('click', () => {
+            modalContent.innerHTML = "";
+            this.showMealPlanReicpeDetailInfo(modalContent, resJSON['meals'][2].TITLE, resJSON['meals'][2].PREPTIME, resJSON['meals'][2].SERVINGS, resJSON['meals'][2].INSTRUCTION, resJSON['meals'][2].INGRIDIENTS);
+            this.closeIconForDetailedVievForSavedMealsAddEvenListener(n);
+        });
+    }
+
+
+    showMealsFromMealPlan = async(n) => {
+        const planId = document.getElementById(`planId${n}`).innerText;
+        const res = await this.api.getMealsForOneMealPlan(planId);
+        const resJSON = await res.json();
+        const modalContent = document.getElementById('modalContent');
+        modalContent.innerHTML = "";
+        modalContent.style.minWidth = 35 + "%";
+        modalContent.style.maxWidth = 0;
+        document.getElementById('modal').classList.remove('hide');
+        this.hideAddMealPLanAndGetRandomMealsIcons();
+        this.createListWithRecipesToTable(modalContent);
+        this.createListElementsForMealsFromMealPlan(resJSON['meals']);
+        this.showMealFromMealPlanDetailInfoAddEventListeners(resJSON, n);
+        this.closeIconAddEvenListener();
+    }
+
+
 }

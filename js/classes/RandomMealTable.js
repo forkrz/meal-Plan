@@ -1,11 +1,13 @@
 import { Api } from "./Api.js";
 import { Modals } from "./Modals.js";
 import { Pagination } from "./Pagination.js";
+import { HtmlElements } from "./HtmlElements.js";
 export class RandomTable {
     constructor() {
         this.Api = new Api;
         this.Modals = new Modals;
         this.Pag = new Pagination;
+        this.htmlElements = new HtmlElements;
     }
 
     randomMealsData = async(minScope, maxScope) => {
@@ -57,7 +59,7 @@ export class RandomTable {
         const planId = document.getElementById(`planId${n}`)
         const button = document.querySelector(`[data-index-number="${n}"]`);
         button.addEventListener('click', () => {
-            this.Modals.showRandomReicpeDetailInfo(atribute, n, meals);
+            this.htmlElements.showRandomRecipeDetailInfo(n);
         });
     }
 

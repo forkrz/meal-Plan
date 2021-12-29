@@ -242,7 +242,7 @@ class Database
     {
         $query = "SELECT * FROM random_meals WHERE RANDOM_MEAL_ID =:RANDOM_MEAL_ID";
         $statement = $this->con->prepare($query);
-        $statement->bindParam(':USER_LOGIN', $mealId);
+        $statement->bindParam(':RANDOM_MEAL_ID', $mealId);
         $statement->execute();
         $result = $statement->fetchall(PDO::FETCH_ASSOC);
         return $result;
