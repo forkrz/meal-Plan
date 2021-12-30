@@ -1,12 +1,12 @@
 <?php
 
 declare(strict_types=1);
-require_once 'MealPlans.php';
+require_once 'ExternalApiEndpoints.php';
 class Database
 {
     function __construct(array $config)
     {
-        $this->meal = new Meals();
+        $this->meal = new ExternalApiEndpoints();
         try {
             $dsn = "mysql:host={$config['host']};dbname={$config['dbname']}";
             $this->con = new PDO($dsn, $config['user'], $config['password']);
@@ -43,13 +43,6 @@ class Database
         }
     }
 
-    function console_log($message)
-    {
-        $STDERR = fopen("php://stderr", "w");
-        fwrite($STDERR, "\n" . $message . "\n\n");
-        fclose($STDERR);
-    }
-
     public function addMealPlansforWholeWheek(array $array, string $login)
     {
         foreach ($array['week'] as $day) {
@@ -78,13 +71,13 @@ class Database
         return $result["MAX(PLAN_ID)"];
     }
 
-    private function getSpeicfiedDataForRecipes($mealId)
+    private function getSpeicfiedDataForRecipes(int $mealId)
     {
         $data = $this->meal->getMoreInforForRecipeFromMealsPlan($mealId);
         return $data;
     }
 
-    private function convertArrayOfIngridientsToString($extData)
+    private function convertArrayOfIngridientsToString(array $extData)
     {
         $arr = [];
         foreach ($extData['extendedIngredients'] as $ingridient) {
@@ -95,7 +88,7 @@ class Database
         return $finalString;
     }
 
-    private function amendTextOfRecipe($extData)
+    private function amendTextOfRecipe(array $extData)
     {
         $string = $extData['instructions'];
         $string = strip_tags($string);
@@ -191,32 +184,6 @@ class Database
         $result = $statement->fetchall(PDO::FETCH_ASSOC);
         return $result;
     }
-    public function getFirstRecordsPaginated($login)
-    {
-        $query = "SELECT * FROM meals INNER JOIN meal_plans On meals.PLAN_ID = meal_plans.PLAN_ID WHERE meal_plans.USER_LOGIN =:USER_LOGIN LIMIT 0,10";
-        $statement = $this->con->prepare($query);
-        $statement->bindParam(':USER_LOGIN', $login);
-        $statement->execute();
-        $result = $statement->fetchall(PDO::FETCH_ASSOC);
-        return $result;
-    }
-    public function getLastRecordsPaginated($login)
-    {
-        $recordsTotal = $this->getTotalQuantityOfPlansForUser($login);
-        if ($recordsTotal < 10) {
-            $minRecords = 0;
-            $maxRecords = $recordsTotal;
-        } else {
-            $minRecords = $recordsTotal - 10;
-            $maxRecords = $recordsTotal;
-        }
-        $query = "SELECT * FROM meals INNER JOIN meal_plans On meals.PLAN_ID = meal_plans.PLAN_ID WHERE meal_plans.USER_LOGIN =:USER_LOGIN LIMIT {$minRecords},{$maxRecords}";
-        $statement = $this->con->prepare($query);
-        $statement->bindParam(':USER_LOGIN', $login);
-        $statement->execute();
-        $result = $statement->fetchall(PDO::FETCH_ASSOC);
-        return $result;
-    }
 
     public function getAllRecipesForMealPlan(string $planId)
     {
@@ -238,7 +205,7 @@ class Database
         return $result;
     }
 
-    public function getDataForOneRandomMeal($mealId)
+    public function getDataForOneRandomMeal(string $mealId)
     {
         $query = "SELECT * FROM random_meals WHERE RANDOM_MEAL_ID =:RANDOM_MEAL_ID";
         $statement = $this->con->prepare($query);

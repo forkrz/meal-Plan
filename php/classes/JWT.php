@@ -12,7 +12,7 @@ use Firebase\JWT\JWT;
 
 class JWTTokens
 {
-    function __construct($config)
+    function __construct(array $config)
     {
         $this->db = new Database($config);
         $this->ver = new Verification($config);
@@ -24,7 +24,7 @@ class JWTTokens
         $jwt = JWT::encode($token, "example_key");
         return $jwt;
     }
-    public function decodeJwt($JWT)
+    public function decodeJwt(string $JWT)
     {
         if (isset($JWT)) {
             try {

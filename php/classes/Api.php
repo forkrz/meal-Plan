@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require_once("Database.php");
 require_once("Verification.php");
-require_once("MealPlans.php");
+require_once("ExternalApiEndpoints.php");
 require_once("Pagination.php");
 require_once("JWT.php");
 class Api
@@ -14,10 +14,10 @@ class Api
         $this->ver = new Verification($config);
         $this->JWT = new JWTTokens($config);
         $this->pag = new Pagination($config);
-        $this->meals = new Meals();
+        $this->meals = new ExternalApiEndpoints();
     }
 
-    public function sendLoginData(string $login, $password)
+    public function sendLoginData(string $login, string $password)
     {
         if ($this->ver->loginDataCheck($login, $password)) {
 
@@ -117,7 +117,7 @@ class Api
         }
     }
 
-    public function getPaginatedRecordsForRandomRecipes(string $JWT, $minScope)
+    public function getPaginatedRecordsForRandomRecipes(string $JWT, int $minScope)
     {
 
         if ($this->JWT->decodeJwt($JWT) !== false) {
@@ -159,7 +159,7 @@ class Api
         }
     }
 
-    public function getDataForSingleRandomMeal(string $JWT, $mealId)
+    public function getDataForSingleRandomMeal(string $JWT, string $mealId)
     {
 
         if ($this->JWT->decodeJwt($JWT) !== false) {

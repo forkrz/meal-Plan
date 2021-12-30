@@ -1,8 +1,6 @@
 <?php
 
 declare(strict_types=1);
-require_once("../classes/Database.php");
-require_once("../classes/Verification.php");
 require_once("../classes/Api.php");
 $config = require_once '../config/dbconfig.php';
 require_once '../config/tokenConfig.php';

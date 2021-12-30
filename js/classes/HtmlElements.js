@@ -31,7 +31,7 @@ export class HtmlElements {
     }
 
     createGenerateMealPlansModal = (modalContainer) => {
-        modalContainer.innerHTML = `<div class="modal__content">
+        modalContainer.innerHTML = `<div class="modal__content" id="modalContent">
         <header class="modal__header">
             <button class="material-icons modal__header__button" id="closeButton">close</button>
             <span class="modal__content__span">Preferences:</span>
@@ -236,15 +236,15 @@ export class HtmlElements {
     }
 
     showPrepInstructionForOneMeal = (instruction) => {
-            modalContent.insertAdjacentHTML('beforeend', '<span class="listOfIngridents__header">Instruction:</span>' + '<span class="recipeConatiner">' + instruction + '</span>')
-        }
-        // showRandomReicpeDetailInfo = (modalContent, title, prepTime, servings, instruction, listOfIngredients) => {
-        //     modalContent.style.minWidth = 10;
-        //     this.createListOfIngridientsAndTitleForDetailedInfo(modalContent, title);
-        //     this.fillListOfIngridientsForDetailInfoForGeneratedRandomMeal(listOfIngredients)
-        //     this.showPrepTimeAndQtyOfServings(prepTime, servings);
-        //     this.showPrepInstructionForOneMeal(instruction);
-        // }
+        modalContent.insertAdjacentHTML('beforeend', '<span class="listOfIngridents__header">Instruction:</span>' + '<span class="recipeConatiner">' + instruction + '</span>')
+    }
+    showRandomReicpeDetailInfo = (modalContent, title, prepTime, servings, instruction, listOfIngredients) => {
+        modalContent.style.minWidth = 10;
+        this.createListOfIngridientsAndTitleForDetailedInfo(modalContent, title);
+        this.fillListOfIngridientsForDetailInfoForGeneratedRandomMeal(listOfIngredients)
+        this.showPrepTimeAndQtyOfServings(prepTime, servings);
+        this.showPrepInstructionForOneMeal(instruction);
+    }
 
     selectAllElememtsWithSpecificDataAtributeSet = async() => {
         const showMealsButtons = document.querySelectorAll("[data-index-number]");

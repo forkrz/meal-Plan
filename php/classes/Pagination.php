@@ -30,7 +30,7 @@ class Pagination
         return $mealsData;
     }
 
-    public function getRandomMeals(string $login, $minScope)
+    public function getRandomMeals(string $login, int $minScope)
     {
         $totalRecords = $this->db->getTotalQuantityOfRandomMealsForUser($login);
         $minMeals = $this->getMinMeals($minScope, $totalRecords);
